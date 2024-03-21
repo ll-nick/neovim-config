@@ -5,5 +5,6 @@ vim.cmd("set shiftwidth=2")
 
 vim.wo.number = true
 
+vim.opt.clipboard:append({ "unnamed", "unnamedplus" })
 
 vim.g.mapleader = " "
