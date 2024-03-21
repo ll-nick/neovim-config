@@ -5,5 +5,5 @@ vim.cmd("set shiftwidth=2")
 
 vim.wo.number = true
 
-vim.g.mapleader = ","
 
+vim.g.mapleader = " "
