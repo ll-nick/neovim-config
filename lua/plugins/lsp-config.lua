@@ -37,10 +37,20 @@ return {
 				capabilities = capabilities,
 			})
 
+			-- Diagnostics
+			vim.keymap.set("n", "<leader>df", vim.diagnostic.open_float, { desc = "Open diagnostics float" })
+			vim.keymap.set("n", "<leader>dn", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
+			vim.keymap.set("n", "<leader>dN", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
+			vim.keymap.set("n", "<leader>dl", vim.diagnostic.setloclist, { desc = "Show diagnstics list" })
+
+			-- LSP
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show hover information" })
-			vim.keymap.set("n", "<leader>cd", vim.lsp.buf.definition, { desc = "Go to definition" })
-			vim.keymap.set("n", "<leader>cr", vim.lsp.buf.references, { desc = "List all references" })
+			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+			vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
+			vim.keymap.set("n", "<leader>cl", vim.lsp.buf.references, { desc = "List all references" })
 			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Trigger code actions" })
+			vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename symbol" })
+			vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, { desc = "Rename symbol" })
 		end,
 	},
 }
