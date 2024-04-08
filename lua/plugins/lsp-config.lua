@@ -10,7 +10,11 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 		lazy = false,
 		opts = {
-			auto_install = true,
+			ensure_installed = {
+				"clangd",
+				"lua_ls",
+				"pyright",
+			},
 		},
 	},
 	{
@@ -26,13 +30,10 @@ return {
 			lspconfig.clangd.setup({
 				capabilities = capabilities,
 			})
-			lspconfig.tsserver.setup({
-				capabilities = capabilities,
-			})
-			lspconfig.html.setup({
-				capabilities = capabilities,
-			})
 			lspconfig.lua_ls.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.pyright.setup({
 				capabilities = capabilities,
 			})
 
