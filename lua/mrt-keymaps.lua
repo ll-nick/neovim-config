@@ -28,6 +28,11 @@ local build_current_package = function()
 	execute_in_current_file_directory(build_command)
 end
 
+local build_and_run_tests = function()
+	local build_command = "source ~/.config/bash/mrt.bash && mrt run_tests --this --no-deps -j4"
+	execute_in_current_file_directory(build_command)
+end
+
 local set_catkin_profile = function(profile)
 	local set_profile_command = "!mrt catkin profile set " .. profile
 	vim.cmd(set_profile_command)
@@ -35,6 +40,7 @@ end
 
 vim.keymap.set("n", "<Leader>bw", build_workspace, { desc = "Build workspace" })
 vim.keymap.set("n", "<Leader>bp", build_current_package, { desc = "Build current package" })
+vim.keymap.set("n", "<Leader>bt", build_and_run_tests, { desc = "Run tests" })
 
 vim.keymap.set("n", "<Leader>mc", map_compile_commands, { desc = "Map compile commands" })
 
