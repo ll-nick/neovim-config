@@ -32,6 +32,13 @@ return {
 			})
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
+						},
+					},
+				},
 			})
 			lspconfig.pyright.setup({
 				capabilities = capabilities,
