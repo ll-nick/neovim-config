@@ -147,9 +147,11 @@ return {
 						"build_debug/",
 						"devel/",
 						"devel_debug/",
+						"logs/",
+						"logs_debug/",
 						".cache/",
 						".catkin_tools/",
-						".mrt_tools",
+						".mrt_tools/",
 					},
 				},
 				extensions = {
