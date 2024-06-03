@@ -15,6 +15,9 @@ return {
 						"build_debug/",
 						"devel/",
 						"devel_debug/",
+						".cache/",
+						".catkin_tools/",
+						".mrt_tools",
 					},
 				},
 				extensions = {
