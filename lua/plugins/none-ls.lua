@@ -35,7 +35,8 @@ return {
 			ensure_installed = nil,
 			automatic_installation = true,
 		})
-
-		vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "Format file" })
 	end,
+	keys = {
+		{ "<leader>cf", vim.lsp.buf.format, desc = "Format buffer" },
+	},
 }

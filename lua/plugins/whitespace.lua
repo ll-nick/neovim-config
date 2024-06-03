@@ -1,7 +1,13 @@
 return {
-  "johnfrankmorgan/whitespace.nvim",
+	"johnfrankmorgan/whitespace.nvim",
 
-  config = function()
-    vim.keymap.set("n", "<Leader>t", require("whitespace-nvim").trim, { desc = "Trim whitespace" })
-  end,
+	keys = {
+		{
+			"<Leader>tw",
+			function()
+				require("whitespace-nvim").trim()
+			end,
+			desc = "Trim whitespace",
+		},
+	},
 }

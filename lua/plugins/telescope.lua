@@ -26,13 +26,15 @@ return {
 					find_files = { hidden = true },
 				},
 			})
-			local builtin = require("telescope.builtin")
-			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
-			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Grep across project files" })
-			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find open buffers" })
-			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help" })
 
 			require("telescope").load_extension("ui-select")
 		end,
+
+		keys = {
+			{ "<leader>ff", ":Telescope find_files<CR>", desc = "Find files" },
+			{ "<leader>fg", ":Telescope live_grep<CR>", desc = "Grep across project files" },
+			{ "<leader>fb", ":Telescope buffers<CR>", desc = "Find open buffers" },
+			{ "<leader>fh", ":Telescope help_tags<CR>", desc = "Telescope help" },
+		},
 	},
 }
