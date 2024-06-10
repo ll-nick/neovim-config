@@ -29,6 +29,7 @@ return {
 			local lspconfig = require("lspconfig")
 			lspconfig.clangd.setup({
 				capabilities = capabilities,
+				cmd = { "clangd", "--background-index", "--clang-tidy" },
 			})
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
