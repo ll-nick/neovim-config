@@ -11,6 +11,7 @@ return {
 			{ "<leader>gp", ":Gitsigns preview_hunk<CR>", desc = "Preview hunk" },
 			{ "<leader>gt", ":Gitsigns toggle_current_line_blame<CR>", desc = "Toggle git blame" },
 		},
+		lazy = false, -- load the plugin right away for git status colored lines
 	},
 	{
 		"kdheepak/lazygit.nvim",
