@@ -43,6 +43,7 @@
   "undotree": { "branch": "master", "commit": "56c684a805fe948936cda0d1b19505b84ad7e065" },
   "vim-fugitive": { "branch": "master", "commit": "ce882460cf3db12e99f8bf579cbf99e331f6dd4f" },
   "vim-tmux-navigator": { "branch": "master", "commit": "a26954a585b02a2ac02f87145e204f8798a7cbc2" },
+  "vimtex": { "branch": "master", "commit": "0587a064f675fd85cdfb8a76d6a3ff698af3944b" },
   "which-key.nvim": { "branch": "main", "commit": "4433e5ec9a507e5097571ed55c02ea9658fb268a" },
   "whitespace.nvim": { "branch": "master", "commit": "34d319e07f86a628deeb237133088f01f8432bc0" }
 }
