@@ -9,6 +9,10 @@ return {
 		end,
 		keys = {
 			{ "<leader>gp", ":Gitsigns preview_hunk<CR>", desc = "Preview hunk" },
+			{ "<leader>gs", ":Gitsigns stage_hunk<CR>", desc = "Stage hunk" },
+			{ "<leader>gr", ":Gitsigns reset_hunk<CR>", desc = "Reset hunk" },
+			{ "<leader>gS", "<cmd>Gitsigns stage_buffer<CR>", desc = "Stage buffer" },
+			{ "<leader>gR", "<cmd>Gitsigns reset_buffer<CR>", desc = "Reset buffer" },
 			{ "<leader>gt", ":Gitsigns toggle_current_line_blame<CR>", desc = "Toggle git blame" },
 		},
 		lazy = false, -- load the plugin right away for git status colored lines
