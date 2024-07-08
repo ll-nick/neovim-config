@@ -18,6 +18,16 @@ return {
 					)
 				end
 			end,
+			remote = {
+				copy_dirs = {
+					config = {
+						compression = {
+							enabled = true,
+							additional_opts = { "--exclude-vcs" },
+						},
+					},
+				},
+			},
 		})
 	end,
 }
