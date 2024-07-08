@@ -53,5 +53,6 @@ return {
 				desc = "Trim whitespace",
 			},
 		},
+		lazy = false,
 	},
 }
