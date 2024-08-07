@@ -19,3 +19,6 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 -- Highlight yanked text
 vim.cmd("au TextYankPost * silent! lua vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 200 })")
+
+-- Save as sudo
+vim.api.nvim_set_keymap("c", "w!!", "w !sudo tee > /dev/null %", { noremap = true, silent = true })
