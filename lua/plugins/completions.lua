@@ -23,6 +23,8 @@ return {
 			"rafamadriz/friendly-snippets",
 		},
 		config = function()
+			local lspkind = require("lspkind")
+
 			local cmp = require("cmp")
 			require("luasnip.loaders.from_vscode").lazy_load()
 
@@ -49,6 +51,9 @@ return {
 					{ name = "path" },
 					{ name = "buffer" },
 				}),
+				formatting = {
+					format = lspkind.cmp_format({}),
+				},
 			})
 		end,
 	},
