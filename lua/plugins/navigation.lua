@@ -168,10 +168,12 @@ return {
 		end,
 
 		keys = {
+			{ "<leader>/", ":Telescope current_buffer_fuzzy_find<CR>", desc = "Fuzzy find in current buffer" },
+			{ "<leader>fb", ":Telescope buffers<CR>", desc = "Find open buffers" },
 			{ "<leader>ff", ":Telescope find_files<CR>", desc = "Find files" },
 			{ "<leader>fg", ":Telescope live_grep<CR>", desc = "Grep across project files" },
-			{ "<leader>fb", ":Telescope buffers<CR>", desc = "Find open buffers" },
 			{ "<leader>fh", ":Telescope help_tags<CR>", desc = "Telescope help" },
+			{ "<leader>fp", ":Telescope git_files<CR>", desc = "Find file in git project" },
 		},
 	},
 	-- Vim-tmux-navigator
