@@ -25,13 +25,24 @@ return {
 		config = function()
 			local lspkind = require("lspkind")
 
+			local ls = require("luasnip")
+			ls.config.set_config({
+				history = true,
+			})
+
 			local cmp = require("cmp")
 			require("luasnip.loaders.from_vscode").lazy_load()
 
+			vim.keymap.set({ "i", "s" }, "<C-k>", function()
+				ls.jump(1)
+			end, { silent = true })
+			vim.keymap.set({ "i", "s" }, "<C-j>", function()
+				ls.jump(-1)
+			end, { silent = true })
 			cmp.setup({
 				snippet = {
 					expand = function(args)
-						require("luasnip").lsp_expand(args.body)
+						ls.lsp_expand(args.body)
 					end,
 				},
 				window = {
