@@ -139,6 +139,16 @@ return {
 		tag = "0.1.5",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
+			function Telescope_live_grep_git_dir()
+				local git_dir =
+					vim.fn.system(string.format("git -C %s rev-parse --show-toplevel", vim.fn.expand("%:p:h")))
+				git_dir = string.gsub(git_dir, "\n", "") -- remove newline character from git_dir
+				local opts = {
+					cwd = git_dir,
+				}
+				require("telescope.builtin").live_grep(opts)
+			end
+
 			require("telescope").setup({
 				defaults = {
 					file_ignore_patterns = {
@@ -170,10 +180,11 @@ return {
 		keys = {
 			{ "<leader>/", ":Telescope current_buffer_fuzzy_find<CR>", desc = "Fuzzy find in current buffer" },
 			{ "<leader>fb", ":Telescope buffers<CR>", desc = "Find open buffers" },
-			{ "<leader>ff", ":Telescope find_files<CR>", desc = "Find files" },
-			{ "<leader>fg", ":Telescope live_grep<CR>", desc = "Grep across project files" },
+			{ "<leader>ff", ":Telescope git_files<CR>", desc = "Find file in git project" },
+			{ "<leader>fF", ":Telescope find_files<CR>", desc = "Find files" },
+			{ "<leader>fg", ":lua Telescope_live_grep_git_dir()<CR>", desc = "Grep in the git directory" },
+			{ "<leader>fG", ":Telescope live_grep<CR>", desc = "Grep across all files" },
 			{ "<leader>fh", ":Telescope help_tags<CR>", desc = "Telescope help" },
-			{ "<leader>fp", ":Telescope git_files<CR>", desc = "Find file in git project" },
 		},
 	},
 	-- Vim-tmux-navigator
