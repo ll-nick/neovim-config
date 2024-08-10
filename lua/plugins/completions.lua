@@ -39,27 +39,28 @@ return {
 			vim.keymap.set({ "i", "s" }, "<C-j>", function()
 				ls.jump(-1)
 			end, { silent = true })
+
 			cmp.setup({
-				snippet = {
-					expand = function(args)
-						ls.lsp_expand(args.body)
-					end,
-				},
-				window = {
-					completion = cmp.config.window.bordered(),
-					documentation = cmp.config.window.bordered(),
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
-				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 					{ name = "path" },
 					{ name = "buffer" },
 				}),
+				snippet = {
+					expand = function(args)
+						ls.lsp_expand(args.body)
+					end,
+				},
+				mapping = cmp.mapping.preset.insert({
+					["<C-b>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
+				}),
+				window = {
+					completion = cmp.config.window.bordered(),
+					documentation = cmp.config.window.bordered(),
+				},
 				formatting = {
 					format = lspkind.cmp_format({}),
 				},
