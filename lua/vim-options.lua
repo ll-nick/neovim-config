@@ -22,3 +22,7 @@ vim.cmd("au TextYankPost * silent! lua vim.highlight.on_yank({ higroup = 'IncSea
 
 -- Save as sudo
 vim.api.nvim_set_keymap("c", "w!!", "w !sudo tee > /dev/null %", { noremap = true, silent = true })
+
+-- Enable spell checking
+vim.opt.spelllang = "en_us"
+vim.opt.spell = true
