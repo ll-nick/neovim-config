@@ -139,14 +139,34 @@ return {
 		tag = "0.1.5",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
-			function Telescope_live_grep_git_dir()
+			local function get_git_dir()
 				local git_dir =
 					vim.fn.system(string.format("git -C %s rev-parse --show-toplevel", vim.fn.expand("%:p:h")))
-				git_dir = string.gsub(git_dir, "\n", "") -- remove newline character from git_dir
-				local opts = {
-					cwd = git_dir,
-				}
-				require("telescope.builtin").live_grep(opts)
+				git_dir = string.gsub(git_dir, "\n", "") -- remove newline character
+				if git_dir == "" then
+					return nil -- Not a git directory
+				end
+				return git_dir
+			end
+
+			function _G.telescope_live_grep_in_repository()
+				local git_dir = get_git_dir()
+				if git_dir then
+					local opts = { cwd = git_dir }
+					require("telescope.builtin").live_grep(opts)
+				else
+					print("Not a git repository")
+				end
+			end
+
+			function _G.telescope_find_files_in_repository()
+				local git_dir = get_git_dir()
+				if git_dir then
+					local opts = { cwd = git_dir }
+					require("telescope.builtin").find_files(opts)
+				else
+					print("Not a git repository")
+				end
 			end
 
 			require("telescope").setup({
@@ -180,9 +200,17 @@ return {
 		keys = {
 			{ "<leader>/", ":Telescope current_buffer_fuzzy_find<CR>", desc = "Fuzzy find in current buffer" },
 			{ "<leader>fb", ":Telescope buffers<CR>", desc = "Find open buffers" },
-			{ "<leader>ff", ":Telescope git_files<CR>", desc = "Find file in git project" },
+			{
+				"<leader>ff",
+				":lua telescope_find_files_in_repository()<CR>",
+				desc = "Find file in current git repository",
+			},
 			{ "<leader>fF", ":Telescope find_files<CR>", desc = "Find files" },
-			{ "<leader>fg", ":lua Telescope_live_grep_git_dir()<CR>", desc = "Grep in the git directory" },
+			{
+				"<leader>fg",
+				":lua telescope_live_grep_in_repository()<CR>",
+				desc = "Grep in the current git repository",
+			},
 			{ "<leader>fG", ":Telescope live_grep<CR>", desc = "Grep across all files" },
 			{ "<leader>fh", ":Telescope help_tags<CR>", desc = "Telescope help" },
 		},
