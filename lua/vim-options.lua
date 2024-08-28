@@ -26,3 +26,11 @@ vim.api.nvim_set_keymap("c", "w!!", "w !sudo tee > /dev/null %", { noremap = tru
 -- Enable spell checking
 vim.opt.spelllang = "en_us"
 vim.opt.spell = true
+
+-- Create new split
+vim.keymap.set("n", "<leader>sh", ":split<CR>", {})
+vim.keymap.set("n", "<leader>sv", ":vsplit<CR>", {})
+
+-- Zoom in/out by moving pane to new tab
+vim.keymap.set("n", "<leader>zi", ":tab split<CR>", {})
+vim.keymap.set("n", "<leader>zo", ":tab close<CR>", {})
