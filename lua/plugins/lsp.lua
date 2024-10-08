@@ -13,7 +13,7 @@ return {
 			ensure_installed = {
 				"clangd",
 				"lua_ls",
-				"pyright",
+				"jedi_language_server",
 			},
 		},
 	},
@@ -41,7 +41,7 @@ return {
 					},
 				},
 			})
-			lspconfig.pyright.setup({
+			lspconfig.jedi_language_server.setup({
 				capabilities = capabilities,
 			})
 		end,
