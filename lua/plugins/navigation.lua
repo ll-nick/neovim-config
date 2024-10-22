@@ -213,6 +213,7 @@ return {
 			},
 			{ "<leader>fG", ":Telescope live_grep<CR>", desc = "Grep across all files" },
 			{ "<leader>fh", ":Telescope help_tags<CR>", desc = "Telescope help" },
+			{ "<leader>fr", ":Telescope resume<CR>", desc = "Resume last Telescope picker" },
 		},
 	},
 	-- Vim-tmux-navigator
