@@ -29,7 +29,7 @@ return {
 			local lspconfig = require("lspconfig")
 			lspconfig.clangd.setup({
 				capabilities = capabilities,
-				cmd = { "clangd", "--background-index", "--clang-tidy" },
+				cmd = { "clangd", "--background-index", "--clang-tidy", "--offset-encoding=utf-16" },
 			})
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
