@@ -38,21 +38,21 @@ return {
 		{
 			"<leader>tr",
 			function()
-				require("neotest").run.run()
+				require("neotest").run.run({ cwd = vim.fn.expand("%:p:h") })
 			end,
 			desc = "Run nearest test",
 		},
 		{
 			"<leader>tf",
 			function()
-				require("neotest").run.run(vim.fn.expand("%"))
+				require("neotest").run.run(vim.fn.expand("%"), { cwd = vim.fn.expand("%:p:h") })
 			end,
 			desc = "Run tests in file",
 		},
 		{
 			"<leader>td",
 			function()
-				require("neotest").run.run({ strategy = "dap" })
+				require("neotest").run.run({ strategy = "dap", cwd = vim.fn.expand("%:p:h") })
 			end,
 			desc = "Debug nearest test",
 		},
