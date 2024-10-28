@@ -34,3 +34,7 @@ vim.keymap.set("n", "<leader>sv", ":vsplit<CR>", {})
 -- Zoom in/out by moving pane to new tab
 vim.keymap.set("n", "<leader>zi", ":tab split<CR>", {})
 vim.keymap.set("n", "<leader>zo", ":tab close<CR>", {})
+
+-- Center of half page scroll_docs
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
