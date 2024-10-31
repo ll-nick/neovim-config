@@ -1,6 +1,18 @@
 return {
 	{
 		"tpope/vim-fugitive",
+		dependencies = {
+			"tpope/vim-rhubarb",
+			{
+				"shumphrey/fugitive-gitlab.vim",
+				config = function()
+					vim.g.fugitive_gitlab_domains = { "https://gitlab.mrt.kit.edu" }
+				end,
+			},
+		},
+		keys = {
+			{ "<leader>go", ":GBrowse<CR>", mode = { "n", "v" }, desc = "Open on remote" },
+		},
 	},
 	{
 		"lewis6991/gitsigns.nvim",
