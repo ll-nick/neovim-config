@@ -126,8 +126,8 @@ return {
 		},
 		config = function() end,
 		keys = {
-			{ "<C-n>", ":Neotree filesystem reveal left<CR>", "Reveal Neotree filesystem left" },
 			{ "<leader>bf", ":Neotree buffers reveal float<CR>", desc = "Reveal Neotree buffer float" },
+			{ "<C-n>", ":Neotree filesystem reveal float toggle<CR>", "Toogle Neotree filesystem float" },
 		},
 	},
 	-- Telescope
