@@ -26,9 +26,4 @@ return {
       vim.notify = require("notify")
     end,
   },
-  {
-    -- Properly display ANSI escape sequences in Neovim
-    -- :AnsiEsc to toggle
-    "powerman/vim-plugin-AnsiEsc",
-  },
 }
