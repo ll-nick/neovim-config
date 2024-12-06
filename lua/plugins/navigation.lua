@@ -8,112 +8,55 @@ return {
       local harpoon = require("harpoon")
       harpoon:setup()
     end,
-    keys = {
-      {
-        "<leader>hh",
-        function()
-          local harpoon = require("harpoon")
-          harpoon.ui:toggle_quick_menu(harpoon:list())
-        end,
-        desc = "Toggle Harpoon menu",
-      },
-      {
-        "<leader>ha",
-        function()
-          local harpoon = require("harpoon")
-          harpoon:list():add()
-        end,
-        desc = "Add file to Harpoon",
-      },
-      {
-        "<leader>hp",
-        function()
-          local harpoon = require("harpoon")
-          harpoon:list():prev()
-        end,
-        desc = "Select previous Harpoon item",
-      },
-      {
-        "<leader>hn",
-        function()
-          local harpoon = require("harpoon")
-          harpoon:list():next()
-        end,
-        desc = "Select next Harpoon item",
-      },
-      {
-        "<leader>h1",
-        function()
-          local harpoon = require("harpoon")
-          harpoon:list():select(1)
-        end,
-        desc = "Select Harpoon item 1",
-      },
-      {
-        "<leader>h2",
-        function()
-          local harpoon = require("harpoon")
-          harpoon:list():select(2)
-        end,
-        desc = "Select Harpoon item 2",
-      },
-      {
-        "<leader>h3",
-        function()
-          local harpoon = require("harpoon")
-          harpoon:list():select(3)
-        end,
-        desc = "Select Harpoon item 3",
-      },
-      {
-        "<leader>h4",
-        function()
-          local harpoon = require("harpoon")
-          harpoon:list():select(4)
-        end,
-        desc = "Select Harpoon item 4",
-      },
-      {
-        "<leader>h5",
-        function()
-          local harpoon = require("harpoon")
-          harpoon:list():select(5)
-        end,
-        desc = "Select Harpoon item 5",
-      },
-      {
-        "<leader>h6",
-        function()
-          local harpoon = require("harpoon")
-          harpoon:list():select(6)
-        end,
-        desc = "Select Harpoon item 6",
-      },
-      {
-        "<leader>h7",
-        function()
-          local harpoon = require("harpoon")
-          harpoon:list():select(7)
-        end,
-        desc = "Select Harpoon item 7",
-      },
-      {
-        "<leader>h8",
-        function()
-          local harpoon = require("harpoon")
-          harpoon:list():select(8)
-        end,
-        desc = "Select Harpoon item 8",
-      },
-      {
-        "<leader>h9",
-        function()
-          local harpoon = require("harpoon")
-          harpoon:list():select(9)
-        end,
-        desc = "Select Harpoon item 9",
-      },
-    },
+    keys = (function()
+      local bindings = {
+        {
+          "<leader>hh",
+          function()
+            local harpoon = require("harpoon")
+            harpoon.ui:toggle_quick_menu(harpoon:list())
+          end,
+          desc = "Toggle Harpoon menu",
+        },
+        {
+          "<leader>ha",
+          function()
+            local harpoon = require("harpoon")
+            harpoon:list():add()
+          end,
+          desc = "Add file to Harpoon",
+        },
+        {
+          "<leader>hp",
+          function()
+            local harpoon = require("harpoon")
+            harpoon:list():prev()
+          end,
+          desc = "Select previous Harpoon item",
+        },
+        {
+          "<leader>hn",
+          function()
+            local harpoon = require("harpoon")
+            harpoon:list():next()
+          end,
+          desc = "Select next Harpoon item",
+        },
+      }
+
+      for i = 1, 9 do
+        table.insert(bindings, {
+          string.format("<leader>h%d", i),
+          function()
+            local harpoon = require("harpoon")
+            harpoon:list():select(i)
+          end,
+          desc = string.format("Select Harpoon item %d", i),
+        })
+      end
+
+      return bindings
+    end)(),
   },
   -- Neotree
   {
