@@ -58,19 +58,19 @@ return {
       return bindings
     end)(),
   },
-  -- Neotree
+  -- Oil
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-    config = function() end,
+    "stevearc/oil.nvim",
+    dependencies = { { "echasnovski/mini.icons", opts = {} } },
+    config = function()
+      require("oil").setup({
+        keymaps = {
+          ["<C-h"] = false,
+        },
+      })
+    end,
     keys = {
-      { "<C-n>", ":Neotree filesystem reveal float toggle<CR>", "Toogle Neotree filesystem float" },
-      { "<leader>bf", ":Neotree buffers reveal float toggle<CR>", desc = "Toogle Neotree buffer float" },
+      { "<C-n>", ":Oil<CR>", desc = "Open Oil" },
     },
   },
   -- Telescope
