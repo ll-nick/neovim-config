@@ -1,6 +1,23 @@
 return {
   {
-    "github/copilot.vim",
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        suggestion = {
+          auto_trigger = true,
+          keymap = {
+            accept = "<C-y>",
+            accept_line = "<M-j>",
+            accept_word = "<M-l>",
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-e>",
+          },
+        },
+      })
+    end,
   },
   {
     "folke/which-key.nvim",
