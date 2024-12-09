@@ -67,6 +67,9 @@ return {
         keymaps = {
           ["<C-h"] = false,
         },
+        view_options = {
+          show_hidden = true,
+        },
       })
     end,
     keys = {
