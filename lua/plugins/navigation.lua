@@ -83,7 +83,7 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     tag = "0.1.5",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
     config = function()
       local function get_git_dir()
         local git_dir = vim.fn.system(string.format("git -C %s rev-parse --show-toplevel", vim.fn.expand("%:p:h")))
@@ -130,6 +130,7 @@ return {
           },
         },
         extensions = {
+          fzf = {},
           ["ui-select"] = {
             require("telescope.themes").get_dropdown({}),
           },
@@ -139,6 +140,7 @@ return {
         },
       })
 
+      require("telescope").load_extension("fzf")
       require("telescope").load_extension("ui-select")
     end,
 
