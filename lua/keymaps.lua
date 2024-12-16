@@ -1,4 +1,9 @@
 local set = vim.keymap.set
+
+-- Execute lua code
+set("n", "<leader>xx", "<cmd>.lua<CR>", { desc = "Execute the current line" })
+set("n", "<leader>xf", "<cmd>source %<CR>", { desc = "Execute the current file" })
+
 -- Allow pasting without overwriting the yank register
 set("v", "<leader>p", [["_dP]])
 
