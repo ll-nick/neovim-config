@@ -18,6 +18,12 @@ set("c", "w!!", "w !sudo tee > /dev/null %", { silent = false })
 set("n", "<leader>sh", ":split<CR>", {})
 set("n", "<leader>sv", ":vsplit<CR>", {})
 
+-- Resize splits
+set("n", "<M-,>", "<c-w>5<")
+set("n", "<M-.>", "<c-w>5>")
+set("n", "<M-u>", "<C-w>+")
+set("n", "<M-d>", "<C-w>-")
+
 -- Zoom in/out by moving pane to new tab
 set("n", "<leader>zi", ":tab split<CR>", {})
 set("n", "<leader>zo", ":tab close<CR>", {})
