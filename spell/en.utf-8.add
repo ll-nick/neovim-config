@@ -12,3 +12,7 @@ lelarge
 namespace
 ros
 mpc
+interpretability
+extensibility
+teleoperation
+modularity
