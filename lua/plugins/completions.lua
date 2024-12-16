@@ -8,12 +8,12 @@ return {
         suggestion = {
           auto_trigger = true,
           keymap = {
-            accept = "<C-y>",
-            accept_line = "<M-j>",
-            accept_word = "<M-l>",
+            accept = "<M-y>",
+            accept_line = "<M-$>",
+            accept_word = "<M-w>",
             next = "<M-]>",
             prev = "<M-[>",
-            dismiss = "<C-e>",
+            dismiss = "<M-e>",
           },
         },
         filetypes = {
@@ -96,14 +96,6 @@ return {
           format = lspkind.cmp_format({}),
         },
       })
-
-      cmp.event:on("menu_opened", function()
-        vim.b.copilot_suggestion_hidden = true
-      end)
-
-      cmp.event:on("menu_closed", function()
-        vim.b.copilot_suggestion_hidden = false
-      end)
     end,
   },
 }
