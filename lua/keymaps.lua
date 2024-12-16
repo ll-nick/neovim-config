@@ -31,3 +31,14 @@ set("n", "<leader>zo", ":tab close<CR>", {})
 -- Center of half page scroll_docs
 set("n", "<C-d>", "<C-d>zz")
 set("n", "<C-u>", "<C-u>zz")
+
+-- Navigate quickfix list
+set("n", "<leader>qq", function()
+  if vim.fn.winnr("$") == 1 then
+    vim.cmd("copen")
+  else
+    vim.cmd("cclose")
+  end
+end, {})
+set("n", "<M-j>", ":cnext<CR>")
+set("n", "<M-k>", ":cprev<CR>")
