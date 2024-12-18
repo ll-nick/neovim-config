@@ -159,6 +159,7 @@ return {
         desc = "Grep in the current git repository",
       },
       { "<leader>fG", ":Telescope live_grep<CR>", desc = "Grep across all files" },
+      { "<leader>fs", ":Telescope lsp_document_symbols<CR>", desc = "Find document symbols" },
       { "<leader>fh", ":Telescope help_tags<CR>", desc = "Telescope help" },
       { "<leader>fr", ":Telescope resume<CR>", desc = "Resume last Telescope picker" },
     },
