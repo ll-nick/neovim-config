@@ -73,7 +73,7 @@ return {
       })
     end,
     keys = {
-      { "<C-n>", ":Oil<CR>", desc = "Open Oil" },
+      { "<C-n>", "<cmd>lua require('oil').toggle_float()<CR>", desc = "Open Oil" },
     },
   },
   -- Telescope
