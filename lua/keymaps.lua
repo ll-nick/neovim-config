@@ -42,3 +42,6 @@ set("n", "<leader>qq", function()
 end, { desc = "Toggle quickfix list" })
 set("n", "<M-j>", ":cnext<CR>", { desc = "Go to the next quickfix entry" })
 set("n", "<M-k>", ":cprev<CR>", { desc = "Go to the previous quickfix entry" })
+
+-- Replace character by linebreak, i.e. the opposite of `J`
+set("n", "gJ", "s<CR><Esc>", { desc = "Replace character by linebreak" })
