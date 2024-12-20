@@ -16,3 +16,11 @@ vim.opt.spell = true
 
 -- Highlight yanked text
 vim.cmd("au TextYankPost * silent! lua vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 200 })")
+
+-- Do not auto-comment on newline
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    vim.opt.formatoptions:remove({ "r", "o" })
+  end,
+})
