@@ -1,5 +1,3 @@
-vim.g.mapleader = " "
-
 -- Set line numbers
 vim.wo.number = true
 vim.wo.relativenumber = true
