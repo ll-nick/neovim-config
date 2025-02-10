@@ -10,13 +10,24 @@ return {
     config = function()
       require("mason").setup()
 
+      require("mason-null-ls").setup({
+        ensure_installed = {
+          "clang_format",
+          -- Installed manually for Python 3.8 support via
+          -- pipx install black==24.8.0
+          -- "black",
+          "stylua",
+        },
+        automatic_installation = false,
+        handlers = {},
+      })
+
       local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
       local null_ls = require("null-ls")
       null_ls.setup({
         sources = {
-          null_ls.builtins.formatting.clang_format,
+          -- Manually register black since it's not installed via mason-null-ls
           null_ls.builtins.formatting.black,
-          null_ls.builtins.formatting.stylua,
         },
         -- Auto-format on save
         on_attach = function(client, bufnr)
@@ -31,11 +42,6 @@ return {
             })
           end
         end,
-      })
-
-      require("mason-null-ls").setup({
-        ensure_installed = nil,
-        automatic_installation = true,
       })
     end,
     keys = {
