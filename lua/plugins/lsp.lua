@@ -14,7 +14,9 @@ return {
         "bashls",
         "clangd",
         "lua_ls",
-        "jedi_language_server",
+        -- Installed manually for Python 3.8 support via
+        -- `pipx install jedi-language-server==0.42.0`
+        -- "jedi_language_server",
       },
     },
   },
