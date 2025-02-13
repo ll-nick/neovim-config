@@ -4,9 +4,6 @@ local set = vim.keymap.set
 set("n", "<leader>xx", "<cmd>.lua<CR>", { desc = "Execute the current line as Lua code" })
 set("n", "<leader>xf", "<cmd>source %<CR>", { desc = "Execute the current file as Lua code" })
 
--- Allow pasting without overwriting the yank register
-set("v", "<leader>p", [["_dP]], { desc = "Paste without overwriting the yank register" })
-
 -- Yank to system clipboard
 set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to system clipboard" })
 set("n", "<leader>Y", [["+Y]], { desc = "Yank the current line to system clipboard" })
