@@ -11,11 +11,8 @@ return {
         return
       end
 
-      -- Change the working directory to the Git root
-      vim.cmd("lcd " .. git_root)
-
       -- Open lazygit
-      require("snacks.lazygit").open()
+      require("snacks.lazygit").open({ cwd = git_root })
     end
 
     vim.api.nvim_create_user_command("LazyGitCurrentFile", open_lazygit_for_current_file, {})
