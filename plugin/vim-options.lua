@@ -2,8 +2,8 @@
 vim.wo.number = true
 vim.wo.relativenumber = true
 
--- The mode is already displayed in the status line
-vim.opt.showmode = false
+-- Hide cmd line
+vim.opt.cmdheight = 0
 
 -- Wrapped lines keep indentation
 vim.opt.breakindent = true
