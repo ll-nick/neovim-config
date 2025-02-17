@@ -11,10 +11,6 @@ set("n", "<leader>Y", [["+Y]], { desc = "Yank the current line to system clipboa
 -- Save as sudo
 set("c", "w!!", "w !sudo tee > /dev/null %", { silent = false, desc = "Save the file with sudo permissions" })
 
--- Create new split
-set("n", "<leader>sh", ":split<CR>", { desc = "Create a horizontal split" })
-set("n", "<leader>sv", ":vsplit<CR>", { desc = "Create a vertical split" })
-
 -- Resize splits
 set("n", "<M-,>", "<c-w>5<", { desc = "Decrease split width" })
 set("n", "<M-.>", "<c-w>5>", { desc = "Increase split width" })
