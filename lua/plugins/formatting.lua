@@ -12,10 +12,11 @@ return {
 
       require("mason-null-ls").setup({
         ensure_installed = {
-          "clang_format",
           -- Installed manually for Python 3.8 support via
           -- pipx install black==24.8.0
           -- "black",
+          "clang_format",
+          "shfmt",
           "stylua",
         },
         automatic_installation = false,
