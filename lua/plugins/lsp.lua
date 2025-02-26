@@ -65,7 +65,6 @@ return {
       { "<leader>cl", vim.lsp.buf.references, desc = "List all references" },
       { "<leader>ca", vim.lsp.buf.code_action, desc = "Trigger code actions" },
       { "<leader>cr", vim.lsp.buf.rename, desc = "Rename symbol" },
-      { "<F2>", vim.lsp.buf.rename, desc = "Rename symbol" },
 
       -- LSP/clangd
       { "<leader>gh", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch between source/header" },
