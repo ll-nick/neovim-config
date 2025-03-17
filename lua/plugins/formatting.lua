@@ -30,7 +30,7 @@ return {
           -- Manually register black since it's not installed via mason-null-ls
           null_ls.builtins.formatting.black,
           null_ls.builtins.formatting.shfmt.with({
-            extra_args = { "--indent", "4", "--case-indent" },
+            extra_args = { "--indent", "4", "--case-indent", "--space-redirects" },
           }),
         },
         -- Auto-format on save
