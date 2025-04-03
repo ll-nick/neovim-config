@@ -6,6 +6,9 @@ return {
         increment = "<C-a>",
         decrement = "<C-x>",
       },
+      additions = {
+        { "debug", "info", "warning", "error" },
+      },
     })
   end,
 }
