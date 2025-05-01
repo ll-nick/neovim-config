@@ -95,32 +95,25 @@ return {
     dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
     config = function()
       local function get_git_dir()
-        local git_dir = vim.fn.system(string.format("git -C %s rev-parse --show-toplevel", vim.fn.expand("%:p:h")))
-        git_dir = string.gsub(git_dir, "\n", "") -- remove newline character
-        if git_dir == "" then
-          return nil -- Not a git directory
+        local output = vim.fn.systemlist(string.format("git -C %s rev-parse --show-toplevel", vim.fn.expand("%:p:h")))
+        if vim.v.shell_error ~= 0 or #output == 0 then
+          return nil
         end
-        return git_dir
+        return output[1]
       end
 
       function _G.telescope_live_grep_in_repository()
         local git_dir = get_git_dir()
-        if git_dir then
-          local opts = { cwd = git_dir }
-          require("telescope.builtin").live_grep(opts)
-        else
-          print("Not a git repository")
-        end
+        -- If not in a git repository, fall back to the current working directory
+        local opts = { cwd = git_dir or vim.fn.getcwd() }
+        require("telescope.builtin").live_grep(opts)
       end
 
       function _G.telescope_find_files_in_repository()
         local git_dir = get_git_dir()
-        if git_dir then
-          local opts = { cwd = git_dir }
-          require("telescope.builtin").find_files(opts)
-        else
-          print("Not a git repository")
-        end
+        -- If not in a git repository, fall back to the current working directory
+        local opts = { cwd = git_dir or vim.fn.getcwd() }
+        require("telescope.builtin").find_files(opts)
       end
 
       require("telescope").setup({
