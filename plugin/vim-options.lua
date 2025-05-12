@@ -26,6 +26,8 @@ vim.opt.scrolloff = 5
 vim.opt.spelllang = "en_us"
 vim.opt.spell = true
 
+vim.diagnostic.config({ virtual_text = true })
+
 -- Highlight yanked text
 vim.cmd("au TextYankPost * silent! lua vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 200 })")
 
