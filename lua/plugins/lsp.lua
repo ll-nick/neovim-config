@@ -14,6 +14,7 @@ return {
         "bashls",
         "clangd",
         "lua_ls",
+        "rust_analyzer",
         -- Installed manually for Python 3.8 support via
         -- `pipx install jedi-language-server==0.42.0`
         -- "jedi_language_server",
@@ -43,6 +44,16 @@ return {
           Lua = {
             diagnostics = {
               globals = { "vim" },
+            },
+          },
+        },
+      })
+      lspconfig.rust_analyzer.setup({
+        capabilities = capabilities,
+        settings = {
+          ["rust-analyzer"] = {
+            checkOnSave = {
+              command = "clippy",
             },
           },
         },

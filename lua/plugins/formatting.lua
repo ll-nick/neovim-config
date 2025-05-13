@@ -16,6 +16,7 @@ return {
           -- pipx install black==24.8.0
           -- "black",
           "clang_format",
+          "rustfmt",
           "shfmt",
           "stylua",
         },
