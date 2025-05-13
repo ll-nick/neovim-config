@@ -15,6 +15,7 @@ return {
         "clangd",
         "lua_ls",
         "jedi_language_server",
+        "rust_analyzer",
       },
     },
   },
@@ -41,6 +42,16 @@ return {
           Lua = {
             diagnostics = {
               globals = { "vim" },
+            },
+          },
+        },
+      })
+      lspconfig.rust_analyzer.setup({
+        capabilities = capabilities,
+        settings = {
+          ["rust-analyzer"] = {
+            checkOnSave = {
+              command = "clippy",
             },
           },
         },
