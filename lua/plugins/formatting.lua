@@ -14,6 +14,7 @@ return {
         ensure_installed = {
           "black",
           "clang_format",
+          "rustfmt",
           "shfmt",
           "stylua",
         },
