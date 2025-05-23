@@ -12,9 +12,7 @@ return {
 
       require("mason-null-ls").setup({
         ensure_installed = {
-          -- Installed manually for Python 3.8 support via
-          -- pipx install black==24.8.0
-          -- "black",
+          "black",
           "clang_format",
           "shfmt",
           "stylua",
@@ -27,8 +25,6 @@ return {
       local null_ls = require("null-ls")
       null_ls.setup({
         sources = {
-          -- Manually register black since it's not installed via mason-null-ls
-          null_ls.builtins.formatting.black,
           null_ls.builtins.formatting.shfmt.with({
             extra_args = { "--indent", "4", "--case-indent", "--space-redirects" },
           }),
