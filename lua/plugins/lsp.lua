@@ -10,6 +10,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     lazy = false,
     opts = {
+      automatic_enable = false,
       ensure_installed = {
         "bashls",
         "clangd",
