@@ -1,43 +1,47 @@
 return {
   {
-    "williamboman/mason.nvim",
-    lazy = false,
-    config = function()
-      require("mason").setup()
-    end,
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    lazy = false,
-    opts = {
-      automatic_enable = false,
-      ensure_installed = {
-        "bashls",
-        "clangd",
-        "lua_ls",
-        "jedi_language_server",
-      },
-    },
-  },
-  {
     "neovim/nvim-lspconfig",
     lazy = false,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
+      "williamboman/mason.nvim",
     },
     config = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      require("mason").setup()
 
-      local lspconfig = require("lspconfig")
-      lspconfig.bashls.setup({
-        capabilities = capabilities,
+      local registry = require("mason-registry")
+
+      -- These language servers will be installed and enabled
+      -- Mapping: mason_package_name -> lspconfig_name
+      local servers = {
+        ["bash-language-server"] = "bashls",
+        ["clangd"] = "clangd",
+        ["lua-language-server"] = "lua_ls",
+        ["jedi-language-server"] = "jedi_language_server",
+      }
+
+      registry.refresh(function()
+        for mason_name, lsp_name in pairs(servers) do
+          -- Ensure the language server is installed
+          local ok, pkg = pcall(registry.get_package, mason_name)
+          if ok and not pkg:is_installed() then
+            pkg:install()
+            vim.notify("Installing " .. mason_name .. "...", vim.log.levels.INFO)
+          end
+
+          -- Enable the language server
+          vim.lsp.enable(lsp_name)
+        end
+      end)
+
+      -- Additional LSP configurations
+      vim.lsp.config("*", {
+        capabilities = require("cmp_nvim_lsp").default_capabilities(),
       })
-      lspconfig.clangd.setup({
-        capabilities = capabilities,
-        cmd = { "clangd", "--background-index", "--clang-tidy", "--offset-encoding=utf-16" },
+      vim.lsp.config("clangd", {
+        cmd = { "clangd", "--background-index", "--clang-tidy" },
       })
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
+      vim.lsp.config("lua_ls", {
         settings = {
           Lua = {
             diagnostics = {
@@ -45,9 +49,6 @@ return {
             },
           },
         },
-      })
-      lspconfig.jedi_language_server.setup({
-        capabilities = capabilities,
       })
     end,
     keys = {
