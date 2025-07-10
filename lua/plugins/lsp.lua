@@ -16,8 +16,9 @@ return {
       local servers = {
         ["bash-language-server"] = "bashls",
         ["clangd"] = "clangd",
-        ["lua-language-server"] = "lua_ls",
         ["jedi-language-server"] = "jedi_language_server",
+        ["lua-language-server"] = "lua_ls",
+        ["ruff"] = "ruff",
       }
 
       registry.refresh(function()
