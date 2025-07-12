@@ -14,9 +14,9 @@ return {
       -- These language servers will be installed and enabled
       -- Mapping: mason_package_name -> lspconfig_name
       local servers = {
+        ["basedpyright"] = "basedpyright",
         ["bash-language-server"] = "bashls",
         ["clangd"] = "clangd",
-        ["jedi-language-server"] = "jedi_language_server",
         ["lua-language-server"] = "lua_ls",
         ["ruff"] = "ruff",
       }
