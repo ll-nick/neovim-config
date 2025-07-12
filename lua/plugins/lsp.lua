@@ -4,6 +4,7 @@ return {
     lazy = false,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
+      "nvimtools/none-ls.nvim",
       "williamboman/mason.nvim",
     },
     config = function()
@@ -51,6 +52,51 @@ return {
           },
         },
       })
+
+      -- These null_ls sources servers will be installed and enabled
+      local null_ls_sources = {
+        "clang_format",
+        "shfmt",
+        "stylua",
+      }
+
+      registry.refresh(function()
+        for _, mason_name in ipairs(null_ls_sources) do
+          -- Ensure the language server is installed
+          local ok, pkg = pcall(registry.get_package, mason_name)
+          if ok and not pkg:is_installed() then
+            pkg:install()
+            vim.notify("Installing " .. mason_name .. "...", vim.log.levels.INFO)
+          end
+        end
+      end)
+
+      local null_ls = require("null-ls")
+      local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
+      null_ls.setup({
+        sources = {
+          null_ls.builtins.formatting.shfmt.with({
+            extra_args = { "--indent", "4", "--case-indent", "--space-redirects" },
+          }),
+          null_ls.builtins.formatting.clang_format,
+          null_ls.builtins.formatting.stylua,
+        },
+
+        -- Auto-format on save
+        on_attach = function(client, bufnr)
+          if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = augroup,
+              buffer = bufnr,
+              callback = function()
+                vim.lsp.buf.format({ async = false })
+              end,
+            })
+          end
+        end,
+      })
     end,
     keys = {
       -- Diagnostics
@@ -69,6 +115,9 @@ return {
 
       -- LSP/clangd
       { "<leader>gh", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch between source/header" },
+
+      -- Formatting
+      { "<leader>cf", vim.lsp.buf.format, desc = "Format buffer" },
     },
   },
 }
