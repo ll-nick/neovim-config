@@ -9,7 +9,6 @@
 
       require("mason-null-ls").setup({
         ensure_installed = {
-          "black",
           "clang_format",
           "shfmt",
           "stylua",
