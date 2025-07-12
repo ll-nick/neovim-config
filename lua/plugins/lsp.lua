@@ -15,12 +15,12 @@ end
 
 return {
   {
-    "neovim/nvim-lspconfig",
+    "williamboman/mason.nvim",
     lazy = false,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
+      "neovim/nvim-lspconfig",
       "nvimtools/none-ls.nvim",
-      "williamboman/mason.nvim",
     },
     config = function()
       require("mason").setup()
