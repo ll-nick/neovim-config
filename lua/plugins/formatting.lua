@@ -1,6 +1,3 @@
-return {
-  { "tpope/vim-sleuth" },
-  {
     "jay-babu/mason-null-ls.nvim",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
