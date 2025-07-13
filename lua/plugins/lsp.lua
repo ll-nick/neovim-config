@@ -81,6 +81,17 @@ local lsp_format_on_save = function(preferred_formatter)
           vim.lsp.buf.format({
             async = false,
           })
+
+          -- Ruff proved import organization via the linter rather than the formatter.
+          -- Call the corresponding code action here to get auto sort on save behavior analogous to e.g. clang-format.
+          -- See https://github.com/astral-sh/ruff/issues/8926 for reference
+          if client.name == "ruff" then
+            vim.lsp.buf.code_action({
+              context = { only = { "source.organizeImports" } },
+              apply = true,
+              buffer = bufnr,
+            })
+          end
         end,
       })
     end
