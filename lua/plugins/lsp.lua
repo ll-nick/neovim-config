@@ -1,28 +1,60 @@
 -- Language-specific configuration
 local languages = {
   cpp = {
-    lsps = { "clangd" },
+    lsps = {
+      {
+        name = "clangd",
+        config = {
+          cmd = { "clangd", "--background-index", "--clang-tidy", "--offset-encoding=utf-16" },
+        },
+      },
+    },
     null_ls = {
-      formatting = { "clang_format" },
+      formatting = { { name = "clang_format" } },
     },
     format_with = "null-ls",
   },
+
   lua = {
-    lsps = { "lua_ls" },
+    lsps = {
+      {
+        name = "lua_ls",
+        config = {
+          settings = {
+            Lua = {
+              diagnostics = {
+                globals = { "vim" },
+              },
+            },
+          },
+        },
+      },
+    },
     null_ls = {
-      formatting = { "stylua" },
+      formatting = { { name = "stylua" } },
     },
     format_with = "null-ls",
   },
+
   python = {
-    lsps = { "basedpyright", "ruff" },
+    lsps = { { name = "basedpyright" }, { name = "ruff" } },
     format_with = "ruff",
     organize_imports_with = "ruff",
   },
+
   sh = {
-    lsps = { "bashls" },
+    lsps = {
+      { name = "bashls" },
+    },
     null_ls = {
-      formatting = { "shfmt" },
+      formatting = {
+        {
+          name = "shfmt",
+          config = {
+            extra_args = { "--indent", "4", "--case-indent", "--space-redirects" },
+          },
+        },
+      },
     },
     format_with = "null-ls",
   },
@@ -84,31 +116,19 @@ return {
 
       -- Set up LSPs
       for _, config in pairs(languages) do
-        for _, lsp in ipairs(config.lsps or {}) do
-          mason_packages[lsp] = true
-          vim.lsp.enable(lsp)
-          local lsp_config = {
+        for _, lsp_entry in ipairs(config.lsps or {}) do
+          local lsp_name = lsp_entry.name
+          local opts = lsp_entry.config or {}
+
+          mason_packages[lsp_name] = true
+          vim.lsp.enable(lsp_name)
+
+          local lsp_config = vim.tbl_deep_extend("force", {
             capabilities = require("cmp_nvim_lsp").default_capabilities(),
             on_attach = lsp_format_on_save(config.format_with),
-          }
+          }, opts)
 
-          -- Example: custom override for clangd
-          if lsp == "clangd" then
-            lsp_config.cmd = { "clangd", "--background-index", "--clang-tidy", "--offset-encoding=utf-16" }
-          end
-
-          -- Example: lua_ls diagnostics globals
-          if lsp == "lua_ls" then
-            lsp_config.settings = {
-              Lua = {
-                diagnostics = {
-                  globals = { "vim" },
-                },
-              },
-            }
-          end
-
-          vim.lsp.config(lsp, lsp_config)
+          vim.lsp.config(lsp_name, lsp_config)
         end
       end
 
@@ -118,28 +138,34 @@ return {
       for _, config in pairs(languages) do
         local null_cfg = config.null_ls or {}
 
-        for _, formatter in ipairs(null_cfg.formatting or {}) do
-          mason_packages[formatter] = true
-          table.insert(null_ls_sources, null_ls.builtins.formatting[formatter])
-
-          if formatter == "shfmt" then
-            table.insert(
-              null_ls_sources,
-              null_ls.builtins.formatting.shfmt.with({
-                extra_args = { "--indent", "4", "--case-indent", "--space-redirects" },
-              })
-            )
+        for _, source in ipairs(null_cfg.formatting or {}) do
+          mason_packages[source.name] = true
+          local builtin = null_ls.builtins.formatting[source.name]
+          if source.config then
+            table.insert(null_ls_sources, builtin.with(source.config))
+          else
+            table.insert(null_ls_sources, builtin)
           end
         end
 
-        for _, diagnostic in ipairs(null_cfg.diagnostics or {}) do
-          mason_packages[diagnostic] = true
-          table.insert(null_ls_sources, null_ls.builtins.diagnostics[diagnostic])
+        for _, source in ipairs(null_cfg.diagnostics or {}) do
+          mason_packages[source.name] = true
+          local builtin = null_ls.builtins.diagnostics[source.name]
+          if source.config then
+            table.insert(null_ls_sources, builtin.with(source.config))
+          else
+            table.insert(null_ls_sources, builtin)
+          end
         end
 
-        for _, action in ipairs(null_cfg.code_actions or {}) do
-          mason_packages[action] = true
-          table.insert(null_ls_sources, null_ls.builtins.code_actions[action])
+        for _, source in ipairs(null_cfg.code_actions or {}) do
+          mason_packages[source.name] = true
+          local builtin = null_ls.builtins.code_actions[source.name]
+          if source.config then
+            table.insert(null_ls_sources, builtin.with(source.config))
+          else
+            table.insert(null_ls_sources, builtin)
+          end
         end
       end
 
