@@ -1,3 +1,33 @@
+-- Language-specific configuration
+local languages = {
+  cpp = {
+    lsps = { "clangd" },
+    null_ls = {
+      formatting = { "clang_format" },
+    },
+    format_with = "null-ls",
+  },
+  lua = {
+    lsps = { "lua_ls" },
+    null_ls = {
+      formatting = { "stylua" },
+    },
+    format_with = "null-ls",
+  },
+  python = {
+    lsps = { "basedpyright", "ruff" },
+    format_with = "ruff",
+    organize_imports_with = "ruff",
+  },
+  sh = {
+    lsps = { "bashls" },
+    null_ls = {
+      formatting = { "shfmt" },
+    },
+    format_with = "null-ls",
+  },
+}
+
 local lsp_format_on_save = function(preferred_formatter)
   return function(client, bufnr)
     if client.name ~= preferred_formatter then
@@ -20,6 +50,12 @@ local lsp_format_on_save = function(preferred_formatter)
   end
 end
 
+local function get_preferred_formatter(bufnr)
+  local ft = vim.bo[bufnr or 0].filetype
+  local config = languages[ft] or {}
+  return config and config.format_with
+end
+
 return {
   {
     "williamboman/mason.nvim",
@@ -34,35 +70,6 @@ return {
       local registry = require("mason-registry")
       local null_ls = require("null-ls")
 
-      -- Language-specific configuration
-      local languages = {
-        cpp = {
-          lsps = { "clangd" },
-          null_ls = {
-            formatting = { "clang_format" },
-          },
-          format_with = "null-ls",
-        },
-        lua = {
-          lsps = { "lua_ls" },
-          null_ls = {
-            formatting = { "stylua" },
-          },
-          format_with = "null-ls",
-        },
-        python = {
-          lsps = { "basedpyright", "ruff" },
-          format_with = "ruff",
-          organize_imports_with = "ruff",
-        },
-        sh = {
-          lsps = { "bashls" },
-          null_ls = {
-            formatting = { "shfmt" },
-          },
-          format_with = "null-ls",
-        },
-      }
       local mason_name_map = {
         -- LSPs
         ["lua-language-server"] = "lua_ls",
@@ -183,7 +190,15 @@ return {
       {
         "<leader>cf",
         function()
-          vim.lsp.buf.format({ async = true })
+          local bufnr = vim.api.nvim_get_current_buf()
+          local preferred = get_preferred_formatter(bufnr)
+          print(preferred)
+          vim.lsp.buf.format({
+            async = true,
+            filter = function(client)
+              return client.name == preferred
+            end,
+          })
         end,
         desc = "Format buffer",
       },
