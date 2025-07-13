@@ -43,7 +43,6 @@ local languages = {
   python = {
     lsps = { { name = "basedpyright" }, { name = "ruff" } },
     format_with = "ruff",
-    organize_imports_with = "ruff",
   },
 
   sh = {
@@ -227,7 +226,6 @@ return {
         function()
           local bufnr = vim.api.nvim_get_current_buf()
           local preferred = get_preferred_formatter(bufnr)
-          print(preferred)
           vim.lsp.buf.format({
             async = true,
             filter = function(client)
