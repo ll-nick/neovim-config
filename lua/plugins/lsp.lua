@@ -1,6 +1,7 @@
 -- Language-specific configuration
 local languages = {
   cpp = {
+    -- A list of LSP servers with optional configurations
     lsps = {
       {
         name = "clangd",
@@ -9,9 +10,12 @@ local languages = {
         },
       },
     },
+    -- null-ls sources for formatting, diagnostics, etc.
     null_ls = {
+      -- A list of null-ls sources for formatting with optional configurations
       formatting = { { name = "clang_format" } },
     },
+    -- The preferred formatter to use for this language, either an LSP or null-ls
     format_with = "null-ls",
   },
 
@@ -60,6 +64,8 @@ local languages = {
   },
 }
 
+-- Returns a function that sets up LSP formatting on save if the client matches the preferred formatter
+-- Otherwise, the returned function does nothing
 local lsp_format_on_save = function(preferred_formatter)
   return function(client, bufnr)
     if client.name ~= preferred_formatter then
@@ -82,6 +88,7 @@ local lsp_format_on_save = function(preferred_formatter)
   end
 end
 
+-- Returns the preferred formatter for the current buffer based on its filetype
 local function get_preferred_formatter(bufnr)
   local ft = vim.bo[bufnr or 0].filetype
   local config = languages[ft] or {}
@@ -102,6 +109,8 @@ return {
       local registry = require("mason-registry")
       local null_ls = require("null-ls")
 
+      -- Mason package names don't always match LSP/null-ls names,
+      -- so we need a mapping to ensure we install the correct packages.
       local mason_name_map = {
         -- LSPs
         ["lua-language-server"] = "lua_ls",
@@ -111,7 +120,7 @@ return {
         ["clang-format"] = "clang_format",
       }
 
-      -- Collect all Mason packages to install
+      -- A table of packages to ensure are installed
       local mason_packages = {}
 
       -- Set up LSPs
