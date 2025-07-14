@@ -84,46 +84,54 @@ local languages = {
   },
 }
 
--- Returns a function that sets up LSP formatting on save if the client matches the preferred formatter
--- Otherwise, the returned function does nothing
-local lsp_format_on_save = function(preferred_formatter)
-  return function(client, bufnr)
-    if client.name ~= preferred_formatter then
-      return
-    end
-
-    local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup,
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format({
-            async = false,
-          })
-
-          -- Ruff proved import organization via the linter rather than the formatter.
-          -- Call the corresponding code action here to get auto sort on save behavior analogous to e.g. clang-format.
-          -- See https://github.com/astral-sh/ruff/issues/8926 for reference
-          if client.name == "ruff" then
-            vim.lsp.buf.code_action({
-              context = { only = { "source.organizeImports" } },
-              apply = true,
-              buffer = bufnr,
-            })
-          end
-        end,
-      })
-    end
-  end
-end
-
 -- Returns the preferred formatter for the current buffer based on its filetype
 local function get_preferred_formatter(bufnr)
   local ft = vim.bo[bufnr or 0].filetype
   local config = languages[ft] or {}
   return config and config.format_with
+end
+
+local function format_buffer(bufnr)
+  local preferred_formatter = get_preferred_formatter(bufnr)
+  if not preferred_formatter then
+    return
+  end
+
+  local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+  local client = vim.iter(clients):find(function(c)
+    return c.name == preferred_formatter
+  end)
+
+  if client and client.supports_method("textDocument/formatting") then
+    vim.lsp.buf.format({
+      bufnr = bufnr,
+      async = false,
+      filter = function(c)
+        return c.name == preferred_formatter
+      end,
+    })
+  end
+
+  -- Ruff proved import organization via the linter rather than the formatter.
+  -- Call the corresponding code action here to get auto sort on save behavior analogous to e.g. clang-format.
+  -- See https://github.com/astral-sh/ruff/issues/8926 for reference
+  if preferred_formatter == "ruff" then
+    vim.lsp.buf.code_action({
+      context = { only = { "source.organizeImports" } },
+      apply = true,
+      buffer = bufnr,
+    })
+  end
+end
+
+local function enable_lsp_format_on_save()
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    group = vim.api.nvim_create_augroup("LspFormatting", { clear = true }),
+    callback = function(args)
+      local bufnr = args.buf
+      format_buffer(bufnr)
+    end,
+  })
 end
 
 return {
@@ -165,7 +173,6 @@ return {
 
           local lsp_config = vim.tbl_deep_extend("force", {
             capabilities = require("cmp_nvim_lsp").default_capabilities(),
-            on_attach = lsp_format_on_save(config.format_with),
           }, opts)
 
           vim.lsp.config(lsp_name, lsp_config)
@@ -211,7 +218,6 @@ return {
 
       null_ls.setup({
         sources = null_ls_sources,
-        on_attach = lsp_format_on_save("null-ls"),
       })
 
       -- Fix package names to match what Mason expects
@@ -232,6 +238,8 @@ return {
           end
         end
       end)
+
+      enable_lsp_format_on_save()
     end,
 
     keys = {
@@ -257,13 +265,7 @@ return {
         "<leader>cf",
         function()
           local bufnr = vim.api.nvim_get_current_buf()
-          local preferred = get_preferred_formatter(bufnr)
-          vim.lsp.buf.format({
-            async = true,
-            filter = function(client)
-              return client.name == preferred
-            end,
-          })
+          format_buffer(bufnr)
         end,
         desc = "Format buffer",
       },
