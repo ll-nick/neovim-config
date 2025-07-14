@@ -1,11 +1,17 @@
 local function get_site_packages()
-  local command = string.format("python3 -c 'import site; print(site.getsitepackages()[0])'")
-  local handle = io.popen(command)
+  local handle = io.popen("python3 -c 'import site, json; print(json.dumps(site.getsitepackages()))'")
   if handle then
     local result = handle:read("*a")
     handle:close()
-    return result:gsub("%s+", "") -- remove newline
+    if result then
+      -- Decode JSON string to Lua table
+      local ok, paths = pcall(vim.fn.json_decode, result)
+      if ok and type(paths) == "table" then
+        return paths
+      end
+    end
   end
+  return {}
 end
 
 -- Language-specific configuration
@@ -57,7 +63,7 @@ local languages = {
         settings = {
           basedpyright = {
             analysis = {
-              extraPaths = { get_site_packages() },
+              extraPaths = get_site_packages(),
             }
           }
         }
