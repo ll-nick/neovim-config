@@ -1,3 +1,13 @@
+local function get_site_packages()
+  local command = string.format("python3 -c 'import site; print(site.getsitepackages()[0])'")
+  local handle = io.popen(command)
+  if handle then
+    local result = handle:read("*a")
+    handle:close()
+    return result:gsub("%s+", "") -- remove newline
+  end
+end
+
 -- Language-specific configuration
 local languages = {
   cpp = {
@@ -41,7 +51,18 @@ local languages = {
   },
 
   python = {
-    lsps = { { name = "basedpyright" }, { name = "ruff" } },
+    lsps = { {
+      name = "basedpyright",
+      config = {
+        settings = {
+          basedpyright = {
+            analysis = {
+              extraPaths = { get_site_packages() },
+            }
+          }
+        }
+      }
+    }, { name = "ruff" } },
     format_with = "ruff",
   },
 
@@ -215,18 +236,18 @@ return {
 
     keys = {
       -- Diagnostics
-      { "<leader>df", vim.diagnostic.open_float, desc = "Open diagnostics float" },
-      { "<leader>dn", vim.diagnostic.goto_next, desc = "Go to next diagnostic" },
-      { "<leader>dN", vim.diagnostic.goto_prev, desc = "Go to previous diagnostic" },
-      { "<leader>dl", vim.diagnostic.setloclist, desc = "Show diagnostics list" },
+      { "<leader>df", vim.diagnostic.open_float,           desc = "Open diagnostics float" },
+      { "<leader>dn", vim.diagnostic.goto_next,            desc = "Go to next diagnostic" },
+      { "<leader>dN", vim.diagnostic.goto_prev,            desc = "Go to previous diagnostic" },
+      { "<leader>dl", vim.diagnostic.setloclist,           desc = "Show diagnostics list" },
 
       -- LSP
-      { "K", vim.lsp.buf.hover, desc = "Show hover information" },
-      { "<leader>gd", vim.lsp.buf.definition, desc = "Go to definition" },
-      { "<leader>gD", vim.lsp.buf.declaration, desc = "Go to declaration" },
-      { "<leader>cl", vim.lsp.buf.references, desc = "List all references" },
-      { "<leader>ca", vim.lsp.buf.code_action, desc = "Trigger code actions" },
-      { "<leader>cr", vim.lsp.buf.rename, desc = "Rename symbol" },
+      { "K",          vim.lsp.buf.hover,                   desc = "Show hover information" },
+      { "<leader>gd", vim.lsp.buf.definition,              desc = "Go to definition" },
+      { "<leader>gD", vim.lsp.buf.declaration,             desc = "Go to declaration" },
+      { "<leader>cl", vim.lsp.buf.references,              desc = "List all references" },
+      { "<leader>ca", vim.lsp.buf.code_action,             desc = "Trigger code actions" },
+      { "<leader>cr", vim.lsp.buf.rename,                  desc = "Rename symbol" },
 
       -- Clangd-specific
       { "<leader>gh", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch between source/header" },
