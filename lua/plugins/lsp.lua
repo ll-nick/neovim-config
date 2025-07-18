@@ -103,7 +103,7 @@ local function format_buffer(bufnr)
     return
   end
 
-  local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
   local client = vim.iter(clients):find(function(c)
     return c.name == preferred_formatter
   end)
