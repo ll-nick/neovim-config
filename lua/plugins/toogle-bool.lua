@@ -8,6 +8,7 @@ return {
       },
       additions = {
         { "debug", "info", "warning", "error" },
+        { "assertTrue", "assertFalse" },
       },
     })
   end,
