@@ -1,6 +1,7 @@
+local host_capabilities = require("host_capabilities")
 return {
   "ll-nick/mrt.nvim",
-
+  enabled = host_capabilities.has_mrt_tools,
   dependencies = {
     { "nvim-lua/plenary.nvim" },
     { "nvim-telescope/telescope.nvim" },

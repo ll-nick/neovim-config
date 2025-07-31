@@ -1,5 +1,8 @@
+local host_capabilities = require("host_capabilities")
+
 return {
   "lervag/vimtex",
+  enabled = host_capabilities.has_display and host_capabilities.has_executable("latexmk"),
   lazy = false,
   init = function()
     vim.g.vimtex_view_method = "zathura"
