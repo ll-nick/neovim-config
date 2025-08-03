@@ -63,9 +63,14 @@ return {
     "ggandor/leap.nvim",
     dependencies = { "tpope/vim-repeat" },
     config = function()
-      require("leap").create_default_mappings()
       vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment" })
     end,
+    keys = {
+      -- Manually define defaults due to https://github.com/ggandor/leap.nvim/issues/224
+      { "s", "<Plug>(leap-forward)", mode = { "n", "x", "o" }, desc = "Leap forward" },
+      { "S", "<Plug>(leap-backward)", mode = { "n", "x", "o" }, desc = "Leap backward" },
+      { "gs", "<Plug>(leap-from-window)", mode = { "n", "x", "o" }, desc = "Leap from window" },
+    },
   },
   -- Oil
   {
