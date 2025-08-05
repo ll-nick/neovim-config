@@ -5,6 +5,9 @@ vim.wo.relativenumber = true
 -- Hide cmd line
 vim.opt.cmdheight = 0
 
+-- Add border around floating windows
+vim.opt.winborder = "rounded"
+
 -- Wrapped lines keep indentation
 vim.opt.breakindent = true
 
