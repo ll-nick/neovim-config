@@ -1,141 +1,35 @@
-local function get_site_packages()
-  local handle = io.popen("python3 -c 'import site, json; print(json.dumps(site.getsitepackages()))'")
-  if handle then
-    local result = handle:read("*a")
-    handle:close()
-    if result then
-      -- Decode JSON string to Lua table
-      local ok, paths = pcall(vim.fn.json_decode, result)
-      if ok and type(paths) == "table" then
-        return paths
-      end
-    end
-  end
-  return {}
-end
-
--- Language-specific configuration
-local languages = {
-  cpp = {
-    -- A list of LSP servers with optional configurations
-    lsps = {
-      {
-        name = "clangd",
-        config = {
-          cmd = { "clangd", "--background-index", "--clang-tidy", "--offset-encoding=utf-16" },
-        },
-      },
-    },
-    -- null-ls sources for formatting, diagnostics, etc.
-    null_ls = {
-      -- A list of null-ls sources for formatting with optional configurations
-      formatting = { { name = "clang_format" } },
-    },
-    -- The preferred formatter to use for this language, either an LSP or null-ls
-    format_with = "null-ls",
-  },
-
-  lua = {
-    lsps = {
-      {
-        name = "lua_ls",
-        config = {
-          settings = {
-            Lua = {
-              diagnostics = {
-                globals = { "vim" },
-              },
-            },
-          },
-        },
-      },
-    },
-    null_ls = {
-      formatting = { { name = "stylua" } },
-    },
-    format_with = "null-ls",
-  },
-
-  python = {
-    lsps = { {
-      name = "basedpyright",
-      config = {
-        settings = {
-          basedpyright = {
-            analysis = {
-              extraPaths = get_site_packages(),
-            }
-          }
-        }
-      }
-    }, { name = "ruff" } },
-    format_with = "ruff",
-  },
-
-  sh = {
-    lsps = {
-      { name = "bashls" },
-    },
-    null_ls = {
-      formatting = {
-        {
-          name = "shfmt",
-          config = {
-            extra_args = { "--indent", "4", "--case-indent", "--space-redirects" },
-          },
-        },
-      },
-    },
-    format_with = "null-ls",
-  },
-}
-
--- Returns the preferred formatter for the current buffer based on its filetype
-local function get_preferred_formatter(bufnr)
-  local ft = vim.bo[bufnr or 0].filetype
-  local config = languages[ft] or {}
-  return config and config.format_with
-end
-
 local function format_buffer(bufnr)
-  local preferred_formatter = get_preferred_formatter(bufnr)
-  if not preferred_formatter then
-    return
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  local ft = vim.bo[bufnr].filetype
+
+  -- basedpyright could format Python files, but we want to use Ruff for that
+  local filter_client = function(client)
+    return client.name ~= "basedpyright"
   end
 
-  local clients = vim.lsp.get_clients({ bufnr = bufnr })
-  local client = vim.iter(clients):find(function(c)
-    return c.name == preferred_formatter
-  end)
+  vim.lsp.buf.format({
+    bufnr = bufnr,
+    async = false,
+    filter = filter_client,
+  })
 
-  if client and client.supports_method("textDocument/formatting") then
-    vim.lsp.buf.format({
-      bufnr = bufnr,
-      async = false,
-      filter = function(c)
-        return c.name == preferred_formatter
-      end,
-    })
-  end
-
-  -- Ruff proved import organization via the linter rather than the formatter.
-  -- Call the corresponding code action here to get auto sort on save behavior analogous to e.g. clang-format.
-  -- See https://github.com/astral-sh/ruff/issues/8926 for reference
-  if preferred_formatter == "ruff" then
-    vim.lsp.buf.code_action({
-      context = { only = { "source.organizeImports" } },
-      apply = true,
-      buffer = bufnr,
-    })
+  -- Special Python handling: organize imports via Ruff command
+  if ft == "python" then
+    -- Ruff proved import organization via the linter rather than the formatter.
+    -- Call the corresponding code action here to get auto sort on save behavior analogous to e.g. clang-format.
+    -- See https://github.com/astral-sh/ruff/issues/8926 for reference
+    vim.api.nvim_buf_call(bufnr, function()
+      vim.cmd.LspRuffOrganizeImports()
+    end)
   end
 end
 
+-- Auto-format on save
 local function enable_lsp_format_on_save()
   vim.api.nvim_create_autocmd("BufWritePre", {
     group = vim.api.nvim_create_augroup("LspFormatting", { clear = true }),
     callback = function(args)
-      local bufnr = args.buf
-      format_buffer(bufnr)
+      format_buffer(args.buf)
     end,
   })
 end
@@ -146,97 +40,52 @@ return {
     lazy = false,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
-      "neovim/nvim-lspconfig",
       "nvimtools/none-ls.nvim",
     },
     config = function()
       require("mason").setup()
       local registry = require("mason-registry")
       local null_ls = require("null-ls")
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- Mason package names don't always match LSP/null-ls names,
-      -- so we need a mapping to ensure we install the correct packages.
-      local mason_name_map = {
-        -- LSPs
-        ["lua-language-server"] = "lua_ls",
-        ["bash-language-server"] = "bashls",
-
-        -- null-ls formatters/linters
-        ["clang-format"] = "clang_format",
+      local lsps = {
+        "basedpyright",
+        "bashls",
+        "clangd",
+        "lua_ls",
+        "ruff",
+        "rust_analyzer",
       }
 
-      -- A table of packages to ensure are installed
-      local mason_packages = {}
-
-      -- Set up LSPs
-      for _, config in pairs(languages) do
-        for _, lsp_entry in ipairs(config.lsps or {}) do
-          local lsp_name = lsp_entry.name
-          local opts = lsp_entry.config or {}
-
-          mason_packages[lsp_name] = true
-          vim.lsp.enable(lsp_name)
-
-          local lsp_config = vim.tbl_deep_extend("force", {
-            capabilities = require("cmp_nvim_lsp").default_capabilities(),
-          }, opts)
-
-          vim.lsp.config(lsp_name, lsp_config)
-        end
-      end
-
-      -- Set up null-ls sources
-      local null_ls_sources = {}
-
-      for _, config in pairs(languages) do
-        local null_cfg = config.null_ls or {}
-
-        for _, source in ipairs(null_cfg.formatting or {}) do
-          mason_packages[source.name] = true
-          local builtin = null_ls.builtins.formatting[source.name]
-          if source.config then
-            table.insert(null_ls_sources, builtin.with(source.config))
-          else
-            table.insert(null_ls_sources, builtin)
-          end
-        end
-
-        for _, source in ipairs(null_cfg.diagnostics or {}) do
-          mason_packages[source.name] = true
-          local builtin = null_ls.builtins.diagnostics[source.name]
-          if source.config then
-            table.insert(null_ls_sources, builtin.with(source.config))
-          else
-            table.insert(null_ls_sources, builtin)
-          end
-        end
-
-        for _, source in ipairs(null_cfg.code_actions or {}) do
-          mason_packages[source.name] = true
-          local builtin = null_ls.builtins.code_actions[source.name]
-          if source.config then
-            table.insert(null_ls_sources, builtin.with(source.config))
-          else
-            table.insert(null_ls_sources, builtin)
-          end
-        end
+      for _, lsp in ipairs(lsps) do
+        vim.lsp.config(lsp, {
+          capabilities = capabilities,
+        })
+        vim.lsp.enable(lsp)
       end
 
       null_ls.setup({
-        sources = null_ls_sources,
+        null_ls.builtins.formatting.clang_format,
+        null_ls.builtins.formatting.stylua,
+        null_ls.builtins.formatting.shfmt.with({
+          extra_args = { "--indent", "4", "--case-indent", "--space-redirects" },
+        }),
       })
 
-      -- Fix package names to match what Mason expects
-      local normalized_packages = {}
-
-      for name in pairs(mason_packages) do
-        local mason_name = mason_name_map[name] or name
-        normalized_packages[mason_name] = true
-      end
+      local mason_packages = {
+        "basedpyright",
+        "bash-language-server",
+        "clangd",
+        "lua-language-server",
+        "ruff",
+        "rust-analyzer",
+        "stylua",
+        "shfmt",
+      }
 
       -- Ensure Mason installs everything
       registry.refresh(function()
-        for name in pairs(normalized_packages) do
+        for _, name in ipairs(mason_packages) do
           local ok, pkg = pcall(registry.get_package, name)
           if ok and not pkg:is_installed() then
             pkg:install()
