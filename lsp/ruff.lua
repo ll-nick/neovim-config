@@ -32,4 +32,15 @@ return {
   filetypes = { "python" },
   root_markers = { "pyproject.toml", "ruff.toml", ".ruff.toml", ".git" },
   settings = {},
+  on_attach = function(_, bufnr)
+    vim.api.nvim_buf_create_user_command(bufnr, "LspRuffOrganizeImports", function()
+      vim.lsp.buf.code_action({
+        context = { only = { "source.organizeImports" } },
+        apply = true,
+        buffer = bufnr,
+      })
+    end, {
+      desc = "Organize Imports",
+    })
+  end,
 }
