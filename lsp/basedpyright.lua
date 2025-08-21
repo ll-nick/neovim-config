@@ -19,6 +19,22 @@ local function set_python_path(path)
   end
 end
 
+local function get_site_packages()
+  local handle = io.popen("python3 -c 'import site, json; print(json.dumps(site.getsitepackages()))'")
+  if handle then
+    local result = handle:read("*a")
+    handle:close()
+    if result then
+      -- Decode JSON string to Lua table
+      local ok, paths = pcall(vim.fn.json_decode, result)
+      if ok and type(paths) == "table" then
+        return paths
+      end
+    end
+  end
+  return {}
+end
+
 ---@type vim.lsp.Config
 return {
   cmd = { "basedpyright-langserver", "--stdio" },
@@ -36,6 +52,7 @@ return {
     basedpyright = {
       analysis = {
         autoSearchPaths = true,
+        extraPaths = get_site_packages(),
         useLibraryCodeForTypes = true,
         diagnosticMode = "openFilesOnly",
       },
