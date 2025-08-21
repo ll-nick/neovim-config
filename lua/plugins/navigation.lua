@@ -159,7 +159,13 @@ return {
         ":lua telescope_find_files_in_repository()<CR>",
         desc = "Find file in current git repository",
       },
-      { "<leader>fF", ":Telescope find_files<CR>", desc = "Find files" },
+      {
+        "<leader>fF",
+        function()
+          require("telescope.builtin").find_files({ no_ignore = true })
+        end,
+        desc = "Find files",
+      },
       {
         "<leader>fg",
         ":lua telescope_live_grep_in_repository()<CR>",
