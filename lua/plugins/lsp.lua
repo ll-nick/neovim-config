@@ -39,13 +39,11 @@ return {
     "williamboman/mason.nvim",
     lazy = false,
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
       "nvimtools/none-ls.nvim",
     },
     config = function()
       require("mason").setup()
       local null_ls = require("null-ls")
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       local lsps = {
         "basedpyright",
@@ -57,9 +55,6 @@ return {
       }
 
       for _, lsp in ipairs(lsps) do
-        vim.lsp.config(lsp, {
-          capabilities = capabilities,
-        })
         vim.lsp.enable(lsp)
       end
 
