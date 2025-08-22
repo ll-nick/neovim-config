@@ -38,12 +38,8 @@ return {
   {
     "williamboman/mason.nvim",
     lazy = false,
-    dependencies = {
-      "nvimtools/none-ls.nvim",
-    },
     config = function()
       require("mason").setup()
-      local null_ls = require("null-ls")
 
       local lsps = {
         "basedpyright",
@@ -57,14 +53,6 @@ return {
       for _, lsp in ipairs(lsps) do
         vim.lsp.enable(lsp)
       end
-
-      null_ls.setup({
-        null_ls.builtins.formatting.clang_format,
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.formatting.shfmt.with({
-          extra_args = { "--indent", "4", "--case-indent", "--space-redirects" },
-        }),
-      })
 
       enable_lsp_format_on_save()
     end,
@@ -97,6 +85,21 @@ return {
         desc = "Format buffer",
       },
     },
+  },
+  {
+    "nvimtools/none-ls.nvim",
+    config = function()
+      local null_ls = require("null-ls")
+      null_ls.setup({
+        sources = {
+          null_ls.builtins.formatting.clang_format,
+          null_ls.builtins.formatting.stylua,
+          null_ls.builtins.formatting.shfmt.with({
+            extra_args = { "--indent", "4", "--case-indent", "--space-redirects" },
+          }),
+        },
+      })
+    end,
   },
   {
     "owallb/mason-auto-install.nvim",
