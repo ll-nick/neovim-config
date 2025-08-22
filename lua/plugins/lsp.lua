@@ -3,8 +3,9 @@ local function format_buffer(bufnr)
   local ft = vim.bo[bufnr].filetype
 
   -- basedpyright could format Python files, but we want to use Ruff for that
+  -- lua_ls could format Lua files, but we want to use stylua instead
   local filter_client = function(client)
-    return client.name ~= "basedpyright"
+    return client.name ~= "basedpyright" and client.name ~= "lua_ls"
   end
 
   vim.lsp.buf.format({
@@ -59,18 +60,18 @@ return {
 
     keys = {
       -- Diagnostics
-      { "<leader>df", vim.diagnostic.open_float,           desc = "Open diagnostics float" },
-      { "<leader>dn", vim.diagnostic.goto_next,            desc = "Go to next diagnostic" },
-      { "<leader>dN", vim.diagnostic.goto_prev,            desc = "Go to previous diagnostic" },
-      { "<leader>dl", vim.diagnostic.setloclist,           desc = "Show diagnostics list" },
+      { "<leader>df", vim.diagnostic.open_float, desc = "Open diagnostics float" },
+      { "<leader>dn", vim.diagnostic.goto_next, desc = "Go to next diagnostic" },
+      { "<leader>dN", vim.diagnostic.goto_prev, desc = "Go to previous diagnostic" },
+      { "<leader>dl", vim.diagnostic.setloclist, desc = "Show diagnostics list" },
 
       -- LSP
-      { "K",          vim.lsp.buf.hover,                   desc = "Show hover information" },
-      { "<leader>gd", vim.lsp.buf.definition,              desc = "Go to definition" },
-      { "<leader>gD", vim.lsp.buf.declaration,             desc = "Go to declaration" },
-      { "<leader>cl", vim.lsp.buf.references,              desc = "List all references" },
-      { "<leader>ca", vim.lsp.buf.code_action,             desc = "Trigger code actions" },
-      { "<leader>cr", vim.lsp.buf.rename,                  desc = "Rename symbol" },
+      { "K", vim.lsp.buf.hover, desc = "Show hover information" },
+      { "<leader>gd", vim.lsp.buf.definition, desc = "Go to definition" },
+      { "<leader>gD", vim.lsp.buf.declaration, desc = "Go to declaration" },
+      { "<leader>cl", vim.lsp.buf.references, desc = "List all references" },
+      { "<leader>ca", vim.lsp.buf.code_action, desc = "Trigger code actions" },
+      { "<leader>cr", vim.lsp.buf.rename, desc = "Rename symbol" },
 
       -- Clangd-specific
       { "<leader>gh", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch between source/header" },
