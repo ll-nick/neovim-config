@@ -18,6 +18,13 @@ local function format_buffer(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   local ft = vim.bo[bufnr].filetype
 
+  if ft == "python" then
+    -- Ruff proved import organization via the linter rather than the formatter.
+    -- Call the corresponding code action here to get auto sort on save behavior analogous to e.g. clang-format.
+    -- See https://github.com/astral-sh/ruff/issues/8926 for reference
+    vim.cmd("LspRuffOrganizeImportsPseudoSync")
+  end
+
   -- Filter out clients we don’t want formatting from
   local filter_client = function(client)
     -- basedpyright can format Python but we use Ruff
@@ -30,15 +37,6 @@ local function format_buffer(bufnr)
     async = false,
     filter = filter_client,
   })
-
-  if ft == "python" then
-    -- Ruff proved import organization via the linter rather than the formatter.
-    -- Call the corresponding code action here to get auto sort on save behavior analogous to e.g. clang-format.
-    -- See https://github.com/astral-sh/ruff/issues/8926 for reference
-    vim.api.nvim_buf_call(bufnr, function()
-      vim.cmd.LspRuffOrganizeImports()
-    end)
-  end
 end
 
 local function enable_format_on_save()

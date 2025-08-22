@@ -42,5 +42,28 @@ return {
     end, {
       desc = "Organize Imports",
     })
+
+    vim.api.nvim_buf_create_user_command(bufnr, "LspRuffOrganizeImportsPseudoSync", function()
+      local done = false
+
+      vim.lsp.buf.code_action({
+        ---@diagnostic disable-next-line: missing-fields
+        context = { only = { "source.organizeImports" } },
+        apply = true,
+        buffer = bufnr,
+        on_result = function()
+          done = true
+        end,
+      })
+
+      -- Wait for the LSP edits to apply (max 1000 ms)
+      -- Slightly hacky but there is no synchronous version of code_action
+      -- See https://github.com/neovim/neovim/issues/31176
+      vim.wait(1000, function()
+        return done
+      end, 10)
+    end, {
+      desc = "Organize Imports (Pseudo Sync)",
+    })
   end,
 }
