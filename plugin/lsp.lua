@@ -1,3 +1,19 @@
+local function enable_all_servers()
+  local lsp_dir = vim.fn.stdpath("config") .. "/lsp"
+  local lsp_servers = {}
+
+  if vim.fn.isdirectory(lsp_dir) == 1 then
+    for _, file in ipairs(vim.fn.readdir(lsp_dir)) do
+      if file:match("%.lua$") and file ~= "init.lua" then
+        local server_name = file:gsub("%.lua$", "")
+        table.insert(lsp_servers, server_name)
+      end
+    end
+  end
+
+  vim.lsp.enable(lsp_servers)
+end
+
 local function format_buffer(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   local ft = vim.bo[bufnr].filetype
@@ -34,19 +50,7 @@ local function enable_format_on_save()
   })
 end
 
-local servers = {
-  "basedpyright",
-  "bashls",
-  "clangd",
-  "lua_ls",
-  "ruff",
-  "rust_analyzer",
-}
-
-for _, lsp in ipairs(servers) do
-  vim.lsp.enable(lsp)
-end
-
+enable_all_servers()
 enable_format_on_save()
 
 vim.api.nvim_create_autocmd("LspAttach", {
