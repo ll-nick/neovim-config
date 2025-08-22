@@ -63,8 +63,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     -- Diagnostics
     map("n", "<leader>df", vim.diagnostic.open_float, "Diagnostics float")
-    map("n", "<leader>dn", vim.diagnostic.goto_next, "Next diagnostic")
-    map("n", "<leader>dN", vim.diagnostic.goto_prev, "Prev diagnostic")
+    map("n", "<leader>dn", function()
+      vim.diagnostic.jump({ count = 1, float = true })
+    end, "Next diagnostic")
+    map("n", "<leader>dN", function()
+      vim.diagnostic.jump({ count = -1, float = true })
+    end, "Prev diagnostic")
     map("n", "<leader>dl", vim.diagnostic.setloclist, "Diagnostics list")
 
     -- LSP core
