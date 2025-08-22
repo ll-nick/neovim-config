@@ -44,7 +44,6 @@ return {
     },
     config = function()
       require("mason").setup()
-      local registry = require("mason-registry")
       local null_ls = require("null-ls")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
@@ -71,28 +70,6 @@ return {
           extra_args = { "--indent", "4", "--case-indent", "--space-redirects" },
         }),
       })
-
-      local mason_packages = {
-        "basedpyright",
-        "bash-language-server",
-        "clangd",
-        "lua-language-server",
-        "ruff",
-        "rust-analyzer",
-        "stylua",
-        "shfmt",
-      }
-
-      -- Ensure Mason installs everything
-      registry.refresh(function()
-        for _, name in ipairs(mason_packages) do
-          local ok, pkg = pcall(registry.get_package, name)
-          if ok and not pkg:is_installed() then
-            pkg:install()
-            vim.notify("Installing " .. name .. "...", vim.log.levels.INFO)
-          end
-        end
-      end)
 
       enable_lsp_format_on_save()
     end,
@@ -123,6 +100,24 @@ return {
           format_buffer(bufnr)
         end,
         desc = "Format buffer",
+      },
+    },
+  },
+  {
+    "owallb/mason-auto-install.nvim",
+    dependencies = {
+      "williamboman/mason.nvim",
+    },
+    opts = {
+      packages = {
+        "basedpyright",
+        "bash-language-server",
+        "clangd",
+        "lua-language-server",
+        "ruff",
+        "rust-analyzer",
+        "stylua",
+        "shfmt",
       },
     },
   },
