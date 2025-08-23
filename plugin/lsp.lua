@@ -28,8 +28,9 @@ local function format_buffer(bufnr)
   -- Filter out clients we don’t want formatting from
   local filter_client = function(client)
     -- basedpyright can format Python but we use Ruff
+    -- bashls can format Bash but we use shfmt
     -- lua_ls can format Lua but we use stylua
-    return client.name ~= "basedpyright" and client.name ~= "lua_ls"
+    return client.name ~= "basedpyright" and client.name ~= "bashls" and client.name ~= "lua_ls"
   end
 
   vim.lsp.buf.format({
