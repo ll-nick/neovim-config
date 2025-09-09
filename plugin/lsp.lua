@@ -30,7 +30,22 @@ local function format_buffer(bufnr)
     -- basedpyright can format Python but we use Ruff
     -- bashls can format Bash but we use shfmt
     -- lua_ls can format Lua but we use stylua
-    return client.name ~= "basedpyright" and client.name ~= "bashls" and client.name ~= "lua_ls"
+    if client.name == "basedpyright" or client.name == "bashls" or client.name == "lua_ls" then
+      return false
+    end
+    return client.server_capabilities
+      and (
+        client.server_capabilities.documentFormattingProvider
+        or client.server_capabilities.documentRangeFormattingProvider
+      )
+  end
+
+  -- Collect matching clients
+  local clients = vim.lsp.get_clients({ filter = filter_client })
+
+  if #clients == 0 then
+    -- Nothing to format with, so skip
+    return
   end
 
   vim.lsp.buf.format({
