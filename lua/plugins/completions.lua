@@ -3,29 +3,34 @@ return {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        suggestion = {
-          auto_trigger = true,
-          keymap = {
-            accept = "<M-y>",
-            accept_line = "<M-$>",
-            accept_word = "<M-w>",
-            next = "<M-]>",
-            prev = "<M-[>",
-            dismiss = "<M-e>",
+    opts = {
+      server_opts_overrides = {
+        settings = {
+          telemetry = {
+            telemetryLevel = "off",
           },
         },
-        filetypes = {
-          yaml = true,
-          markdown = true,
-          gitcommit = true,
-          gitrebase = true,
-          cvs = true,
-          ["."] = true,
+      },
+      suggestion = {
+        auto_trigger = true,
+        keymap = {
+          accept = "<M-y>",
+          accept_line = "<M-$>",
+          accept_word = "<M-w>",
+          next = "<M-]>",
+          prev = "<M-[>",
+          dismiss = "<M-e>",
         },
-      })
-    end,
+      },
+      filetypes = {
+        yaml = true,
+        markdown = true,
+        gitcommit = true,
+        gitrebase = true,
+        cvs = true,
+        ["."] = true,
+      },
+    },
   },
   {
     "folke/which-key.nvim",
@@ -98,7 +103,7 @@ return {
 
       -- Inject cmp capabilities into all LSP servers
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      vim.lsp.config('*', {
+      vim.lsp.config("*", {
         capabilities = capabilities,
       })
     end,
