@@ -14,6 +14,22 @@ local function enable_all_servers()
   vim.lsp.enable(lsp_servers)
 end
 
+-- Filter out clients we don’t want formatting from
+local filter_formatting_client = function(client)
+  local unwanted = {
+    basedpyright = true, -- prefer Ruff
+    bashls = true, -- prefer shfmt
+    lua_ls = true, -- prefer stylua
+  }
+
+  if unwanted[client.name] then
+    return false
+  end
+
+  local caps = client.server_capabilities or {}
+  return caps.documentFormattingProvider == true or caps.documentRangeFormattingProvider == true
+end
+
 local function format_buffer(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   local ft = vim.bo[bufnr].filetype
@@ -25,33 +41,27 @@ local function format_buffer(bufnr)
     vim.cmd("LspRuffOrganizeImportsPseudoSync")
   end
 
-  -- Filter out clients we don’t want formatting from
-  local filter_client = function(client)
-    -- basedpyright can format Python but we use Ruff
-    -- bashls can format Bash but we use shfmt
-    -- lua_ls can format Lua but we use stylua
-    if client.name == "basedpyright" or client.name == "bashls" or client.name == "lua_ls" then
-      return false
-    end
-    return client.server_capabilities
-      and (
-        client.server_capabilities.documentFormattingProvider
-        or client.server_capabilities.documentRangeFormattingProvider
-      )
-  end
-
   -- Collect matching clients
-  local clients = vim.lsp.get_clients({ filter = filter_client })
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
+  local filtered_clients = vim.tbl_filter(filter_formatting_client, clients)
 
-  if #clients == 0 then
+  if #filtered_clients == 0 then
     -- Nothing to format with, so skip
     return
+  end
+
+  local first = filtered_clients[1]
+  if #filtered_clients > 1 then
+    vim.notify_once(
+      string.format("Multiple formatters available for filetype '%s'. Using '%s'.", ft, first.name),
+      vim.log.levels.WARN
+    )
   end
 
   vim.lsp.buf.format({
     bufnr = bufnr,
     async = false,
-    filter = filter_client,
+    id = first.id,
   })
 end
 
