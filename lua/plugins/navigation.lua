@@ -37,7 +37,7 @@ return {
   },
   {
     "nvim-telescope/telescope.nvim",
-    tag = "0.1.5",
+    tag = "0.1.8",
     dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
     config = function()
       local function get_git_dir()
