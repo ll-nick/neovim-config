@@ -2,6 +2,9 @@ return {
   "f-person/auto-dark-mode.nvim",
   dependencies = {
     "catppuccin/nvim",
+    opts = {
+      auto_integrations = true,
+    },
     lazy = false,
     name = "catppuccin",
     priority = 1000,
