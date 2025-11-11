@@ -16,9 +16,7 @@ return {
   },
   {
     "lewis6991/gitsigns.nvim",
-    config = function()
-      require("gitsigns").setup()
-    end,
+    opts = {},
     keys = {
       { "<leader>gp", ":Gitsigns preview_hunk<CR>", desc = "Preview hunk" },
       { "<leader>gs", ":Gitsigns stage_hunk<CR>", desc = "Stage hunk" },

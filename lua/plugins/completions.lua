@@ -35,16 +35,9 @@ return {
   {
     "folke/which-key.nvim",
     dependencies = {
-      { "echasnovski/mini.icons", version = false },
+      { "echasnovski/mini.icons", opts = {}, version = false },
     },
     event = "VeryLazy",
-    config = function()
-      require("mini.icons").setup()
-    end,
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 500
-    end,
     opts = {},
   },
   {
