@@ -1,8 +1,6 @@
 return {
   "folke/snacks.nvim",
-  opts = {
-    lazygit = {},
-  },
+  opts = {},
   keys = {
     {
       "<leader>bd",
@@ -17,6 +15,13 @@ return {
         Snacks.lazygit.open({ cwd = Snacks.git.get_root() })
       end,
       desc = "Open LazyGit for Current File",
+    },
+    {
+      "<leader>go",
+      function()
+        Snacks.gitbrowse()
+      end,
+      desc = "Open Git Repository in Browser",
     },
   },
 }
