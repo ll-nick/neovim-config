@@ -1,6 +1,14 @@
 return {
   "folke/snacks.nvim",
-  opts = {},
+  priority = 1000,
+  lazy = false,
+  opts = {
+    gitbrowse = {},
+    indent = {
+      animate = { enabled = false },
+    },
+    lazygit = {},
+  },
   keys = {
     {
       "<leader>bd",
