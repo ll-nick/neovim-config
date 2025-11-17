@@ -104,7 +104,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "<leader>cr", vim.lsp.buf.rename, "Rename symbol")
 
     -- Clangd-specific
-    map("n", "<leader>gh", "<cmd>ClangdSwitchSourceHeader<cr>", "Switch header/source")
+    map("n", "<leader>gh", "<Cmd>ClangdSwitchSourceHeader<CR>", "Switch header/source")
 
     -- Manual formatting
     map("n", "<leader>cf", function()

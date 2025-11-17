@@ -107,7 +107,7 @@ return {
   keys = {
     {
       "<F1>",
-      ":DapToggleBreakpoint<CR>",
+      "<Cmd>DapToggleBreakpoint<CR>",
       desc = "Toggle breakpoint",
     },
     {
@@ -133,53 +133,63 @@ return {
     },
     {
       "<F5>",
-      ":DapContinue<CR>",
+      "<Cmd>DapContinue<CR>",
       desc = "Continue debugging session",
     },
     {
       "<F6>",
-      ":DapTerminate<CR>",
+      "<Cmd>DapTerminate<CR>",
       desc = "Terminate debugging session",
     },
     {
       "<F7>",
-      ":lua require('dapui').toggle()<CR>",
+      function()
+        require("dapui").toggle()
+      end,
       desc = "Toggle the DAP UI",
     },
     {
       "<F10>",
-      ":DapStepOver<CR>",
+      "<Cmd>DapStepOver<CR>",
       desc = "Step over the current line",
     },
     {
       "<F11>",
-      ":DapStepInto<CR>",
+      "<Cmd>DapStepInto<CR>",
       desc = "Step into the current line",
     },
     {
       "<F12>",
-      ":DapStepOut<CR>",
+      "<Cmd>DapStepOut<CR>",
       desc = "Step out of the current line",
     },
 
     {
       "<leader>db",
-      ":lua require('dapui').float_element('breakpoints', {enter=true, position='center'})<CR>",
+      function()
+        require("dapui").float_element("breakpoints", { enter = true, position = "center" })
+      end,
       desc = "Show breakpoints",
     },
     {
       "<leader>ds",
-      ":lua require('dapui').float_element('stacks', {enter=true, position='center'})<CR>",
+      function()
+        require("dapui").float_element("stacks", { enter = true, position = "center" })
+      end,
       desc = "Show stacks",
     },
     {
       "<leader>dv",
-      ":lua require('dapui').float_element('scopes', {enter=true, position='center'})<CR>",
+      function()
+        require("dapui").float_element("scopes", { enter = true, position = "center" })
+      end,
       desc = "Show variables",
     },
     {
       "<leader>dw",
-      ":lua require('dapui').float_element('watches', {enter=true, position='center'})<CR>",
+      function()
+        require("dapui").float_element("watches", { enter = true, position = "center" })
+      end,
       desc = "Show watches",
     },
   },

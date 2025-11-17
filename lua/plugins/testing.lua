@@ -92,7 +92,7 @@ return {
     },
     {
       "<leader>tc",
-      ":ConfigureGtest<CR>",
+      "<Cmd>ConfigureGtest<CR>",
       desc = "Configure Google Test",
     },
   },

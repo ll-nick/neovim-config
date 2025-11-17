@@ -21,7 +21,14 @@ return {
     {
       "rcarriga/nvim-notify",
       keys = {
-        { "<Esc>", "<cmd>lua require('notify').dismiss()<cr>", "n", desc = "Dismiss notification" },
+        {
+          "<Esc>",
+          function()
+            require("notify").dismiss({ pending = false, silent = false })
+          end,
+          "n",
+          desc = "Dismiss notification",
+        },
       },
     },
   },

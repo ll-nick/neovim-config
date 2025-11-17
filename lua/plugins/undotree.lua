@@ -14,7 +14,7 @@ return {
     end
   end,
   keys = {
-    { "<leader>ut", ":UndotreeToggle<CR>:UndotreeFocus<CR>", "Toggle undotree" },
+    { "<leader>ut", "<Cmd>UndotreeToggle<CR><Cmd>UndotreeFocus<CR>", "Toggle undotree" },
   },
   lazy = false,
 }

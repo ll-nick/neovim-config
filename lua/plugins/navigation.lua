@@ -28,7 +28,13 @@ return {
       })
     end,
     keys = {
-      { "<C-n>", "<cmd>lua require('oil').toggle_float()<CR>", desc = "Open Oil" },
+      {
+        "<C-n>",
+        function()
+          require("oil").toggle_float()
+        end,
+        desc = "Open Oil",
+      },
     },
   },
   -- Telescope
@@ -93,11 +99,13 @@ return {
     end,
 
     keys = {
-      { "<leader>/", ":Telescope current_buffer_fuzzy_find<CR>", desc = "Fuzzy find in current buffer" },
-      { "<leader>fb", ":Telescope buffers<CR>", desc = "Find open buffers" },
+      { "<leader>/", "<Cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Fuzzy find in current buffer" },
+      { "<leader>fb", "<Cmd>Telescope buffers<CR>", desc = "Find open buffers" },
       {
         "<leader>ff",
-        ":lua telescope_find_files_in_repository()<CR>",
+        function()
+          telescope_find_files_in_repository()
+        end,
         desc = "Find file in current git repository",
       },
       {
@@ -109,13 +117,15 @@ return {
       },
       {
         "<leader>fg",
-        ":lua telescope_live_grep_in_repository()<CR>",
+        function()
+          telescope_live_grep_in_repository()
+        end,
         desc = "Grep in the current git repository",
       },
-      { "<leader>fG", ":Telescope live_grep<CR>", desc = "Grep across all files" },
-      { "<leader>fs", ":Telescope lsp_document_symbols<CR>", desc = "Find document symbols" },
-      { "<leader>fh", ":Telescope help_tags<CR>", desc = "Telescope help" },
-      { "<leader>fr", ":Telescope resume<CR>", desc = "Resume last Telescope picker" },
+      { "<leader>fG", "<Cmd>Telescope live_grep<CR>", desc = "Grep across all files" },
+      { "<leader>fs", "<Cmd>Telescope lsp_document_symbols<CR>", desc = "Find document symbols" },
+      { "<leader>fh", "<Cmd>Telescope help_tags<CR>", desc = "Telescope help" },
+      { "<leader>fr", "<Cmd>Telescope resume<CR>", desc = "Resume last Telescope picker" },
     },
   },
   -- Vim-tmux-navigator
@@ -129,11 +139,11 @@ return {
       "TmuxNavigatePrevious",
     },
     keys = {
-      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
-      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+      { "<c-h>", "<Cmd><C-U>TmuxNavigateLeft<CR>" },
+      { "<c-j>", "<Cmd><C-U>TmuxNavigateDown<CR>" },
+      { "<c-k>", "<Cmd><C-U>TmuxNavigateUp<CR>" },
+      { "<c-l>", "<Cmd><C-U>TmuxNavigateRight<CR>" },
+      { "<c-\\>", "<Cmd><C-U>TmuxNavigatePrevious<CR>" },
     },
   },
 }
