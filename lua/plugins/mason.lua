@@ -8,6 +8,7 @@ return {
       "basedpyright",
       "bash-language-server",
       "clangd",
+      "gh-actions-language-server",
       "lua-language-server",
       "ruff",
       "rust-analyzer",
