@@ -50,12 +50,9 @@ return {
         section_separators = { left = "◗", right = "◖" },
       },
       sections = {
-        lualine_a = { "mode" },
-        lualine_b = { "branch", "diff", "diagnostics" },
-        lualine_c = { {
-          "filename",
-          color = { bg = "NONE" },
-        } },
+        lualine_a = { "filename" },
+        lualine_b = { "branch", "diagnostics" },
+        lualine_c = { "" },
         lualine_x = {
           {
             "macro-recording",
