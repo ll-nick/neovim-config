@@ -8,9 +8,6 @@ set("n", "<leader>xf", "<Cmd>source %<CR>", { desc = "Execute the current file a
 set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to system clipboard" })
 set("n", "<leader>Y", [["+Y]], { desc = "Yank the current line to system clipboard" })
 
--- Save as sudo
-set("c", "w!!", "w !sudo tee > /dev/null %", { silent = false, desc = "Save the file with sudo permissions" })
-
 -- Resize splits
 set("n", "<M-,>", "<c-w>5<", { desc = "Decrease split width" })
 set("n", "<M-.>", "<c-w>5>", { desc = "Increase split width" })
