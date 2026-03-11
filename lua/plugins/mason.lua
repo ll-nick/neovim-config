@@ -14,6 +14,7 @@ return {
       "rust-analyzer",
       "stylua",
       "shfmt",
+      "tinymist",
     },
   },
 }
