@@ -41,6 +41,64 @@ local function create_tinymist_command(command_name, client, bufnr)
   return run_tinymist_command, cmd_name, cmd_desc
 end
 
+-- Search upward from start_dir for a main.typ file.
+-- Returns the absolute path if found, nil otherwise.
+---@param start_dir string
+---@return string|nil
+local function find_main_typ(start_dir)
+  local dir = start_dir
+  while true do
+    local candidate = dir .. "/main.typ"
+    if vim.fn.filereadable(candidate) == 1 then
+      return candidate
+    end
+    local parent = vim.fn.fnamemodify(dir, ":h")
+    if parent == dir then
+      return nil
+    end
+    dir = parent
+  end
+end
+
+-- Pin main.typ for the given buffer if tinymist is attached and a main.typ
+-- can be found by walking up the directory tree.
+---@param bufnr integer
+local function pin_main_typ(bufnr)
+  local clients = vim.lsp.get_clients({ bufnr = bufnr, name = "tinymist" })
+  if #clients == 0 then
+    return
+  end
+  local buf_path = vim.api.nvim_buf_get_name(bufnr)
+  if buf_path == "" then
+    return
+  end
+  local main_typ = find_main_typ(vim.fn.fnamemodify(buf_path, ":h"))
+  if not main_typ then
+    return
+  end
+  clients[1]:exec_cmd({
+    title = "pin",
+    command = "tinymist.pinMain",
+    arguments = { main_typ },
+  }, { bufnr = bufnr })
+end
+
+-- Register the BufEnter autocmd once so it re-pins when switching
+-- between .typ buffers within the same project.
+local auto_pin_registered = false
+local function setup_auto_pin()
+  if auto_pin_registered then
+    return
+  end
+  auto_pin_registered = true
+  vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = "*.typ",
+    callback = function(args)
+      pin_main_typ(args.buf)
+    end,
+  })
+end
+
 ---@type vim.lsp.Config
 return {
   cmd = { "tinymist" },
@@ -71,5 +129,8 @@ return {
       local cmd_func, cmd_name, cmd_desc = create_tinymist_command(command, client, bufnr)
       vim.api.nvim_buf_create_user_command(bufnr, "Lsp" .. cmd_name, cmd_func, { nargs = 0, desc = cmd_desc })
     end
+
+    setup_auto_pin()
+    pin_main_typ(bufnr)
   end,
 }
