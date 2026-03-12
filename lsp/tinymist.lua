@@ -46,6 +46,12 @@ return {
   cmd = { "tinymist" },
   filetypes = { "typst" },
   root_markers = { ".git" },
+  settings = {
+    formatterMode = "typstyle",
+    formatterProseWrap = true,
+    formatterPrintWidth = 80,
+    formatterIndentSize = 4,
+  },
   on_attach = function(client, bufnr)
     for _, command in ipairs({
       "tinymist.exportSvg",
