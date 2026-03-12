@@ -7,6 +7,6 @@ return {
   version = "1.*",
   opts = {},
   keys = {
-    { "<leader>tp", "<cmd>TypstPreviewToggle<cr>", desc = "Toggle Typst preview" },
+    { "<leader>tt", "<cmd>TypstPreviewToggle<cr>", desc = "Toggle Typst preview" },
   },
 }
