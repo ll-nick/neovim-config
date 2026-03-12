@@ -26,8 +26,7 @@ local filter_formatting_client = function(client)
     return false
   end
 
-  local caps = client.server_capabilities or {}
-  return caps.documentFormattingProvider == true or caps.documentRangeFormattingProvider == true
+  return client:supports_method("textDocument/formatting") or client:supports_method("textDocument/rangeFormatting")
 end
 
 local function format_buffer(bufnr)
