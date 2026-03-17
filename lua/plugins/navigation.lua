@@ -69,20 +69,6 @@ return {
       end
 
       require("telescope").setup({
-        defaults = {
-          file_ignore_patterns = {
-            ".git/",
-            "build/",
-            "build_debug/",
-            "devel/",
-            "devel_debug/",
-            "logs/",
-            "logs_debug/",
-            ".cache/",
-            ".catkin_tools/",
-            ".mrt_tools/",
-          },
-        },
         extensions = {
           fzf = {},
           ["ui-select"] = {
@@ -90,7 +76,7 @@ return {
           },
         },
         pickers = {
-          find_files = { hidden = true },
+          find_files = { find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" } },
         },
       })
 
