@@ -5,7 +5,9 @@ return {
   enabled = host_capabilities.has_display and host_capabilities.has_executable("typst"),
   ft = "typst",
   version = "1.*",
-  opts = {},
+  opts = {
+    dependencies_bin = { ["tinymist"] = "tinymist" },
+  },
   keys = {
     { "<leader>tt", "<cmd>TypstPreviewToggle<cr>", desc = "Toggle Typst preview" },
   },
