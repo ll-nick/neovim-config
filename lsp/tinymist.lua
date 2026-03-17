@@ -107,7 +107,7 @@ return {
   settings = {
     formatterMode = "typstyle",
     formatterProseWrap = true,
-    formatterPrintWidth = 80,
+    formatterPrintWidth = 90,
     formatterIndentSize = 4,
   },
   on_attach = function(client, bufnr)
