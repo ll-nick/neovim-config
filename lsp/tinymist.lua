@@ -41,27 +41,7 @@ local function create_tinymist_command(command_name, client, bufnr)
   return run_tinymist_command, cmd_name, cmd_desc
 end
 
--- Search upward from start_dir for a main.typ file.
--- Returns the absolute path if found, nil otherwise.
----@param start_dir string
----@return string|nil
-local function find_main_typ(start_dir)
-  local dir = start_dir
-  while true do
-    local candidate = dir .. "/main.typ"
-    if vim.fn.filereadable(candidate) == 1 then
-      return candidate
-    end
-    local parent = vim.fn.fnamemodify(dir, ":h")
-    if parent == dir then
-      return nil
-    end
-    dir = parent
-  end
-end
-
--- Pin main.typ for the given buffer if tinymist is attached and a main.typ
--- can be found by walking up the directory tree.
+-- Pin the main .typ entry point for the given buffer if tinymist is attached.
 ---@param bufnr integer
 local function pin_main_typ(bufnr)
   local clients = vim.lsp.get_clients({ bufnr = bufnr, name = "tinymist" })
@@ -72,7 +52,7 @@ local function pin_main_typ(bufnr)
   if buf_path == "" then
     return
   end
-  local main_typ = find_main_typ(vim.fn.fnamemodify(buf_path, ":h"))
+  local main_typ = require("utils.typst").get_main_typ(buf_path)
   if not main_typ then
     return
   end
