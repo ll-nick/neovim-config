@@ -9,6 +9,6 @@ return {
     vim.g.mkdp_open_to_the_world = 1
   end,
   keys = {
-    { "<leader>mp", "<Cmd>MarkdownPreview<CR>", desc = "Preview Markdown" },
+    { "<leader>pp", "<Cmd>MarkdownPreviewToggle<CR>", desc = "Toggle Markdown preview" },
   },
 }

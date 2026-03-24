@@ -9,6 +9,7 @@ return {
     dependencies_bin = { ["tinymist"] = "tinymist" },
   },
   keys = {
-    { "<leader>tt", "<cmd>TypstPreviewToggle<cr>", desc = "Toggle Typst preview" },
+    { "<leader>pp", "<cmd>TypstPreviewToggle<cr>", desc = "Toggle Typst preview" },
+    { "<leader>ps", "<cmd>TypstPreviewSyncCursor<cr>", desc = "Sync preview to cursor" },
   },
 }
