@@ -25,7 +25,7 @@ return {
     })
   end,
   keys = {
-    { "<leader>pp", "<cmd>TypstPreviewToggle<cr>", desc = "Toggle Typst preview" },
+    { "<leader>pp", "<cmd>TypstPreviewToggle<cr>", desc = "Toggle preview", ft = "typst" },
     { "<leader>ps", "<cmd>TypstPreviewSyncCursor<cr>", desc = "Sync preview to cursor" },
   },
 }
