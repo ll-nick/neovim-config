@@ -15,6 +15,7 @@ return {
       "stylua",
       "shfmt",
       "tinymist",
+      "tree-sitter-cli",
     },
   },
 }
