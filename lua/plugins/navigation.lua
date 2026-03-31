@@ -69,6 +69,10 @@ return {
       end
 
       require("telescope").setup({
+        -- Disable treesitter-based previewer since it seems to be broken right now
+        defaults = {
+          preview = { treesitter = false },
+        },
         extensions = {
           fzf = {},
           ["ui-select"] = {
