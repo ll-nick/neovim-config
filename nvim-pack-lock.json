@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "auto-session": {
+      "rev": "62437532b38495551410b3f377bcf4aaac574ebe",
+      "src": "https://github.com/rmagatti/auto-session"
+    },
     "boole.nvim": {
       "rev": "7b4a3dae28e3b2497747aa840439e9493cabdc49",
       "src": "https://github.com/nat-418/boole.nvim"
