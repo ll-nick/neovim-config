@@ -6,6 +6,11 @@ for _, f in ipairs(vim.fn.glob(vim.fn.stdpath("config") .. "/lua/pack/*.lua", fa
   dofile(f)
 end
 
+-- Collect vim.pack plugin paths so lazy preserves them when resetting rtp
+local pack_paths = vim.tbl_map(function(p)
+  return p.path
+end, vim.pack.get())
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -25,5 +30,11 @@ require("lazy").setup({
   },
   install = {
     colorscheme = { "catppuccin-mocha" },
+  },
+  performance = {
+    rtp = {
+      -- Preserve vim.pack plugin paths so lazy doesn't evict them
+      paths = pack_paths,
+    },
   },
 })
