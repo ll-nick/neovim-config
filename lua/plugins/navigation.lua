@@ -13,30 +13,6 @@ return {
       { "gs", "<Plug>(leap-from-window)", mode = { "n", "x", "o" }, desc = "Leap from window" },
     },
   },
-  -- Oil
-  {
-    "stevearc/oil.nvim",
-    dependencies = { { "echasnovski/mini.icons", opts = {} } },
-    config = function()
-      require("oil").setup({
-        keymaps = {
-          ["<C-h"] = false,
-        },
-        view_options = {
-          show_hidden = true,
-        },
-      })
-    end,
-    keys = {
-      {
-        "<C-n>",
-        function()
-          require("oil").toggle_float()
-        end,
-        desc = "Open Oil",
-      },
-    },
-  },
   -- Telescope
   {
     "nvim-telescope/telescope-ui-select.nvim",
