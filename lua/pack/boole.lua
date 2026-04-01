@@ -1,12 +1,12 @@
-vim.pack.add({ 'https://github.com/nat-418/boole.nvim' })
+vim.pack.add({ "https://github.com/nat-418/boole.nvim" })
 
-require('boole').setup({
+require("boole").setup({
   mappings = {
-    increment = '<C-a>',
-    decrement = '<C-x>',
+    increment = "<C-a>",
+    decrement = "<C-x>",
   },
   additions = {
-    { 'debug', 'info', 'warning', 'error' },
-    { 'assertTrue', 'assertFalse' },
+    { "debug", "info", "warning", "error" },
+    { "assertTrue", "assertFalse" },
   },
 })
