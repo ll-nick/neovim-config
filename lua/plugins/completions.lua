@@ -33,14 +33,6 @@ return {
     },
   },
   {
-    "folke/which-key.nvim",
-    dependencies = {
-      { "echasnovski/mini.icons", opts = {}, version = false },
-    },
-    event = "VeryLazy",
-    opts = {},
-  },
-  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "onsails/lspkind.nvim",
