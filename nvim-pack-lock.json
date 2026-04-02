@@ -12,6 +12,11 @@
       "rev": "62437532b38495551410b3f377bcf4aaac574ebe",
       "src": "https://github.com/rmagatti/auto-session"
     },
+    "blink.cmp": {
+      "rev": "451168851e8e2466bc97ee3e026c3dcb9141ce07",
+      "src": "https://github.com/saghen/blink.cmp",
+      "version": ">=0.0.0"
+    },
     "boole.nvim": {
       "rev": "7b4a3dae28e3b2497747aa840439e9493cabdc49",
       "src": "https://github.com/nat-418/boole.nvim"
@@ -19,6 +24,10 @@
     "copilot.lua": {
       "rev": "faa347cef2a9429eec14dada549e000a3b8d0fc9",
       "src": "https://github.com/zbirenbaum/copilot.lua"
+    },
+    "friendly-snippets": {
+      "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
+      "src": "https://github.com/rafamadriz/friendly-snippets"
     },
     "gitsigns.nvim": {
       "rev": "0f00d07c2c3106ba6abd594ac1c17f211141b7b5",
