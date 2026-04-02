@@ -1,38 +1,5 @@
 return {
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    opts = {
-      server_opts_overrides = {
-        settings = {
-          telemetry = {
-            telemetryLevel = "off",
-          },
-        },
-      },
-      suggestion = {
-        auto_trigger = true,
-        keymap = {
-          accept = "<M-y>",
-          accept_line = "<M-$>",
-          accept_word = "<M-w>",
-          next = "<M-]>",
-          prev = "<M-[>",
-          dismiss = "<M-e>",
-        },
-      },
-      filetypes = {
-        yaml = true,
-        markdown = true,
-        gitcommit = true,
-        gitrebase = true,
-        cvs = true,
-        ["."] = true,
-      },
-    },
-  },
-  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "onsails/lspkind.nvim",

@@ -12,6 +12,10 @@
       "rev": "7b4a3dae28e3b2497747aa840439e9493cabdc49",
       "src": "https://github.com/nat-418/boole.nvim"
     },
+    "copilot.lua": {
+      "rev": "faa347cef2a9429eec14dada549e000a3b8d0fc9",
+      "src": "https://github.com/zbirenbaum/copilot.lua"
+    },
     "gitsigns.nvim": {
       "rev": "0f00d07c2c3106ba6abd594ac1c17f211141b7b5",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
