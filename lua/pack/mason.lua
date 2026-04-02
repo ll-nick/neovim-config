@@ -1,0 +1,17 @@
+vim.pack.add({ "https://github.com/owallb/mason-auto-install.nvim", "https://github.com/williamboman/mason.nvim" })
+
+require("mason-auto-install").setup({
+  packages = {
+    "basedpyright",
+    "bash-language-server",
+    "clangd",
+    "gh-actions-language-server",
+    "lua-language-server",
+    "ruff",
+    "rust-analyzer",
+    "stylua",
+    "shfmt",
+    "tinymist",
+    "tree-sitter-cli",
+  },
+})

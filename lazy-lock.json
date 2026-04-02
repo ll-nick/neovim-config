@@ -1,7 +1,6 @@
 {
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "lualine.nvim": { "branch": "master", "commit": "47f91c416daef12db467145e16bed5bbfe00add8" },
-  "mason-auto-install.nvim": { "branch": "main", "commit": "79dc23cd7bc4c72ac400db1155d9d3ac918120e4" },
   "mason-nvim-dap.nvim": { "branch": "main", "commit": "9a10e096703966335bd5c46c8c875d5b0690dade" },
   "mason.nvim": { "branch": "main", "commit": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65" },
   "mrt.nvim": { "branch": "main", "commit": "161937c5bca210ebfea7ae90c14eba583fe518f0" },
