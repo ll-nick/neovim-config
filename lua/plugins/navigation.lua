@@ -1,18 +1,4 @@
 return {
-  -- Leap
-  {
-    "https://codeberg.org/andyg/leap.nvim.git",
-    dependencies = { "tpope/vim-repeat" },
-    config = function()
-      vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment" })
-    end,
-    keys = {
-      -- Manually define defaults due to https://github.com/ggandor/leap.nvim/issues/224
-      { "s", "<Plug>(leap-forward)", mode = { "n", "x", "o" }, desc = "Leap forward" },
-      { "S", "<Plug>(leap-backward)", mode = { "n", "x", "o" }, desc = "Leap backward" },
-      { "gs", "<Plug>(leap-from-window)", mode = { "n", "x", "o" }, desc = "Leap from window" },
-    },
-  },
   -- Telescope
   {
     "nvim-telescope/telescope-ui-select.nvim",
