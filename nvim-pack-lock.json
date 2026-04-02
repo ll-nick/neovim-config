@@ -37,6 +37,10 @@
       "rev": "b960d5038c5c505c52e56a54490f9bbb1f0e6ef6",
       "src": "https://codeberg.org/andyg/leap.nvim.git"
     },
+    "lualine.nvim": {
+      "rev": "47f91c416daef12db467145e16bed5bbfe00add8",
+      "src": "https://github.com/nvim-lualine/lualine.nvim"
+    },
     "markdown-preview.nvim": {
       "rev": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee",
       "src": "https://github.com/iamcco/markdown-preview.nvim"
@@ -166,6 +170,10 @@
     "vim-tmux-navigator": {
       "rev": "e41c431a0c7b7388ae7ba341f01a0d217eb3a432",
       "src": "https://github.com/christoomey/vim-tmux-navigator"
+    },
+    "vim-tpipeline": {
+      "rev": "bc6dfc10e26a8dd1ec2f0512050a8a0afaa9d090",
+      "src": "https://github.com/vimpostor/vim-tpipeline"
     },
     "vimtex": {
       "rev": "9306903316c3ddd250676b7cf97c84a84c9c8f99",
