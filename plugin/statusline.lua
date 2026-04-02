@@ -38,53 +38,45 @@ local function create_recording_autocmd()
   })
 end
 
-return {
-  "vimpostor/vim-tpipeline",
-  event = "VeryLazy",
-  dependencies = {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {
-      options = {
-        component_separators = { left = "|", right = "|" },
-        section_separators = { left = "◗", right = "◖" },
-      },
-      sections = {
-        lualine_a = { "filename" },
-        lualine_b = { "branch", "diagnostics" },
-        lualine_c = { "" },
-        lualine_x = {
-          {
-            "macro-recording",
-            fmt = show_macro_recording,
-            color = "NonText",
-          },
-        },
-        lualine_y = { "" },
-        lualine_z = { "" },
+vim.g.tpipeline_autoembed = 0
+
+vim.pack.add({
+  "https://github.com/vimpostor/vim-tpipeline",
+  "https://github.com/nvim-lualine/lualine.nvim",
+})
+
+require("lualine").setup({
+  options = {
+    component_separators = { left = "|", right = "|" },
+    section_separators = { left = "◗", right = "◖" },
+  },
+  sections = {
+    lualine_a = { "filename" },
+    lualine_b = { "branch", "diagnostics" },
+    lualine_c = { "" },
+    lualine_x = {
+      {
+        "macro-recording",
+        fmt = show_macro_recording,
+        color = "NonText",
       },
     },
-    config = function(_, opts)
-      require("lualine").setup(opts)
-
-      create_recording_autocmd()
-
-      -- https://github.com/vimpostor/vim-tpipeline/issues/53
-      if vim.env.TMUX then
-        vim.api.nvim_create_autocmd({ "FocusGained", "ColorScheme" }, {
-          callback = function()
-            vim.defer_fn(function()
-              vim.opt.laststatus = 0
-            end, 100)
-          end,
-        })
-
-        vim.o.laststatus = 0
-      end
-    end,
-    event = "VimEnter",
+    lualine_y = { "" },
+    lualine_z = { "" },
   },
-  init = function()
-    vim.g.tpipeline_autoembed = 0
-  end,
-}
+})
+
+create_recording_autocmd()
+
+-- https://github.com/vimpostor/vim-tpipeline/issues/53
+if vim.env.TMUX then
+  vim.api.nvim_create_autocmd({ "FocusGained", "ColorScheme" }, {
+    callback = function()
+      vim.defer_fn(function()
+        vim.opt.laststatus = 0
+      end, 100)
+    end,
+  })
+
+  vim.o.laststatus = 0
+end

@@ -82,4 +82,18 @@ return {
     "selene.yml",
     ".git",
   },
+  settings = {
+    Lua = {
+      runtime = { version = "LuaJIT" },
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME,
+          "${3rd}/luv/library",
+          -- snacks.nvim for Snacks.* completions
+          (vim.pack.get({ "snacks.nvim" })[1] or {}).path,
+        },
+      },
+    },
+  },
 }
