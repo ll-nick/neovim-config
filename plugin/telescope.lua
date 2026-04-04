@@ -11,7 +11,7 @@ vim.pack.add({
   "https://github.com/nvim-lua/plenary.nvim",
   "https://github.com/nvim-telescope/telescope-fzf-native.nvim",
   "https://github.com/nvim-telescope/telescope-ui-select.nvim",
-  { src = "https://github.com/nvim-telescope/telescope.nvim", version = vim.version.range("*") },
+  "https://github.com/nvim-telescope/telescope.nvim",
 })
 
 local telescope = require("telescope")
@@ -56,12 +56,19 @@ telescope.setup({
 telescope.load_extension("fzf")
 telescope.load_extension("ui-select")
 
-vim.keymap.set("n", "<leader>/",  "<Cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "Fuzzy find in current buffer" })
-vim.keymap.set("n", "<leader>fb", "<Cmd>Telescope buffers<CR>",                   { desc = "Find open buffers" })
-vim.keymap.set("n", "<leader>ff", find_files_in_repository,                        { desc = "Find file in current git repository" })
-vim.keymap.set("n", "<leader>fF", function() require("telescope.builtin").find_files({ no_ignore = true }) end, { desc = "Find files" })
-vim.keymap.set("n", "<leader>fg", live_grep_in_repository,                         { desc = "Grep in the current git repository" })
-vim.keymap.set("n", "<leader>fG", "<Cmd>Telescope live_grep<CR>",                 { desc = "Grep across all files" })
-vim.keymap.set("n", "<leader>fs", "<Cmd>Telescope lsp_document_symbols<CR>",      { desc = "Find document symbols" })
-vim.keymap.set("n", "<leader>fh", "<Cmd>Telescope help_tags<CR>",                 { desc = "Telescope help" })
-vim.keymap.set("n", "<leader>fr", "<Cmd>Telescope resume<CR>",                    { desc = "Resume last Telescope picker" })
+vim.keymap.set(
+  "n",
+  "<leader>/",
+  "<Cmd>Telescope current_buffer_fuzzy_find<CR>",
+  { desc = "Fuzzy find in current buffer" }
+)
+vim.keymap.set("n", "<leader>fb", "<Cmd>Telescope buffers<CR>", { desc = "Find open buffers" })
+vim.keymap.set("n", "<leader>ff", find_files_in_repository, { desc = "Find file in current git repository" })
+vim.keymap.set("n", "<leader>fF", function()
+  require("telescope.builtin").find_files({ no_ignore = true })
+end, { desc = "Find files" })
+vim.keymap.set("n", "<leader>fg", live_grep_in_repository, { desc = "Grep in the current git repository" })
+vim.keymap.set("n", "<leader>fG", "<Cmd>Telescope live_grep<CR>", { desc = "Grep across all files" })
+vim.keymap.set("n", "<leader>fs", "<Cmd>Telescope lsp_document_symbols<CR>", { desc = "Find document symbols" })
+vim.keymap.set("n", "<leader>fh", "<Cmd>Telescope help_tags<CR>", { desc = "Telescope help" })
+vim.keymap.set("n", "<leader>fr", "<Cmd>Telescope resume<CR>", { desc = "Resume last Telescope picker" })

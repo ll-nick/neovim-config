@@ -150,9 +150,8 @@
       "src": "https://github.com/nvim-telescope/telescope-ui-select.nvim"
     },
     "telescope.nvim": {
-      "rev": "d88094fbfd84b297178252230f6faf0e7d2f7650",
-      "src": "https://github.com/nvim-telescope/telescope.nvim",
-      "version": ">=0.0.0"
+      "rev": "cfb85dcf7f822b79224e9e6aef9e8c794211b20b",
+      "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
     "typst-preview.nvim": {
       "rev": "325036ee145ca51d9efb145c09ac16bce3bc8b7d",
