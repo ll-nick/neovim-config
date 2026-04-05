@@ -3,7 +3,23 @@ vim.pack.add({
   "https://github.com/f-person/auto-dark-mode.nvim",
 })
 
-require("catppuccin").setup({ auto_integrations = true })
+require("catppuccin").setup({
+  -- Listing integrations explicitly improves startup time over auto-detection.
+  integrations = {
+    blink_cmp = true,
+    gitsigns = true,
+    leap = true,
+    mason = true,
+    neotest = true,
+    noice = true,
+    snacks = true,
+    telescope = { enabled = true },
+    treesitter = true,
+    which_key = true,
+    dap = true,
+    dap_ui = true,
+  },
+})
 
 vim.cmd.colorscheme("catppuccin-mocha")
 
