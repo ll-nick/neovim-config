@@ -20,6 +20,8 @@ local function is_test_file(file)
   return false
 end
 
+require("nvim-treesitter").install({ "c", "cpp" }):wait()
+
 require("neotest").setup({
   adapters = {
     require("neotest-gtest").setup({ is_test_file = is_test_file }),

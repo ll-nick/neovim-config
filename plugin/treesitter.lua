@@ -16,44 +16,17 @@ vim.pack.add({
   "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
 })
 
-require("nvim-treesitter").install({
-  -- core
-  "vim",
-  "vimdoc",
-  -- web
-  "javascript",
-  "typescript",
-  "html",
-  "css",
-  -- shell
-  "bash",
-  "nu",
-  -- data / config
-  "json",
-  "yaml",
-  "toml",
-  -- docs
-  "markdown",
-  "markdown_inline",
-  "latex",
-  "typst",
-  -- programming languages
-  "c",
-  "cpp",
-  "lua",
-  "python",
-  "rust",
-  -- misc
-  "query",
-  "regex",
-  "diff",
-  "gitcommit",
-})
-
 vim.api.nvim_create_autocmd("FileType", {
   callback = function()
-    pcall(vim.treesitter.start)
-    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    local ft = vim.bo.filetype
+    local lang = vim.treesitter.language.get_lang(ft) or ft
+    if not require("nvim-treesitter.parsers")[lang] then
+      return
+    end
+    local buf = vim.api.nvim_get_current_buf()
+    require("nvim-treesitter").install({ lang }):wait()
+    vim.treesitter.start(buf)
+    vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
   end,
 })
 
