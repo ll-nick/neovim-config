@@ -153,6 +153,10 @@
       "rev": "cfb85dcf7f822b79224e9e6aef9e8c794211b20b",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
+    "tiny-cmdline.nvim": {
+      "rev": "0be47ed73731352cbb9682dbbb5a3bcc2d650ee6",
+      "src": "https://github.com/rachartier/tiny-cmdline.nvim"
+    },
     "typst-preview.nvim": {
       "rev": "325036ee145ca51d9efb145c09ac16bce3bc8b7d",
       "src": "https://github.com/chomosuke/typst-preview.nvim",
