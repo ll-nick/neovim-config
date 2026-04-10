@@ -90,8 +90,8 @@ return {
         library = {
           vim.env.VIMRUNTIME,
           "${3rd}/luv/library",
-          -- snacks.nvim for Snacks.* completions
           (vim.pack.get({ "snacks.nvim" })[1] or {}).path,
+          (vim.pack.get({ "nvim-notify" })[1] or {}).path,
         },
       },
     },
