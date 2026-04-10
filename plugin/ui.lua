@@ -2,6 +2,7 @@ require("vim._core.ui2").enable()
 
 vim.pack.add({
   "https://github.com/rachartier/tiny-cmdline.nvim",
+  "https://github.com/rcarriga/nvim-notify",
 })
 
 require("tiny-cmdline").setup({
@@ -16,3 +17,9 @@ vim.api.nvim_create_autocmd({ "VimEnter", "ColorScheme" }, {
     vim.api.nvim_set_hl(0, "TinyCmdlineBorder", { fg = fg, bg = bg })
   end,
 })
+
+vim.notify = require("notify")
+
+vim.keymap.set("n", "<Esc>", function()
+  require("notify").dismiss({ pending = false, silent = false })
+end, { desc = "Dismiss notification" })
