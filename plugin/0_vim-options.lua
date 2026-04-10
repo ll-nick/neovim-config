@@ -2,9 +2,6 @@
 vim.wo.number = true
 vim.wo.relativenumber = true
 
--- Hide cmd line
-vim.opt.cmdheight = 0
-
 -- Add border around floating windows
 vim.opt.winborder = "rounded"
 
@@ -30,6 +27,12 @@ vim.opt.spelllang = "en_us"
 vim.opt.spell = true
 
 vim.diagnostic.config({ virtual_text = true })
+
+-- Remove the bottom line
+vim.opt.cmdheight = 0
+
+-- Enable true color support
+vim.opt.termguicolors = true
 
 -- Highlight yanked text
 vim.cmd("au TextYankPost * silent! lua vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 200 })")

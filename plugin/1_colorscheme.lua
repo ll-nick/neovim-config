@@ -11,7 +11,6 @@ require("catppuccin").setup({
     leap = true,
     mason = true,
     neotest = true,
-    noice = true,
     snacks = true,
     telescope = { enabled = true },
     treesitter = true,
