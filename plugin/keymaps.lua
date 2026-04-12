@@ -35,3 +35,6 @@ set("n", "<M-k>", "<Cmd>cprev<CR>", { desc = "Go to the previous quickfix entry"
 
 -- Replace character by linebreak, i.e. the opposite of `J`
 set("n", "gJ", "s<CR><Esc>", { desc = "Replace character by linebreak" })
+
+-- Restart Neovim
+set("n", "<leader>rs", "<Cmd>restart<CR>", { desc = "Restart Neovim" })
