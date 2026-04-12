@@ -1,11 +1,21 @@
--- Build fzf native extension after install/update
+-- PackChanged fires from within a UV callback (async install/update coroutine),
+-- so vim.system():wait() → vim.wait() would raise E5560. Use vim.schedule to
+-- escape that context for interactive updates.
+-- Headless installs/updates are handled by the post-install hook below.
 vim.api.nvim_create_autocmd("PackChanged", {
   callback = function(ev)
     if ev.data.spec.name == "telescope-fzf-native.nvim" and (ev.data.kind == "install" or ev.data.kind == "update") then
-      vim.system({ "make" }, { cwd = ev.data.path }):wait()
+      local path = ev.data.path
+      vim.schedule(function()
+        vim.system({ "make" }, { cwd = path }):wait()
+      end)
     end
   end,
 })
+
+require("post-install").register("telescope-fzf-native.nvim", function(path)
+  vim.system({ "make" }, { cwd = path }):wait()
+end)
 
 vim.pack.add({
   "https://github.com/nvim-lua/plenary.nvim",
