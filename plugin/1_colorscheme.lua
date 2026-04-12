@@ -22,12 +22,14 @@ require("catppuccin").setup({
 
 vim.cmd.colorscheme("catppuccin-mocha")
 
-require("auto-dark-mode").setup({
-  set_dark_mode = function()
-    vim.cmd.colorscheme("catppuccin-mocha")
-  end,
-  set_light_mode = function()
-    vim.cmd.colorscheme("catppuccin-latte")
-  end,
-  fallback = "dark",
-})
+if vim.fn.executable("dbus-send") == 1 then
+  require("auto-dark-mode").setup({
+    set_dark_mode = function()
+      vim.cmd.colorscheme("catppuccin-mocha")
+    end,
+    set_light_mode = function()
+      vim.cmd.colorscheme("catppuccin-latte")
+    end,
+    fallback = "dark",
+  })
+end
