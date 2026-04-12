@@ -13,6 +13,5 @@ require("mason-auto-install").setup({
     "stylua",
     "shfmt",
     "tinymist",
-    "tree-sitter-cli",
   },
 })
