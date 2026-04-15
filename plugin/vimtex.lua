@@ -1,6 +1,6 @@
 local host_capabilities = require("host_capabilities")
 
-if not (host_capabilities.has_display and host_capabilities.has_executable("latexmk")) then
+if not host_capabilities.has_executable("latexmk") then
   return
 end
 
