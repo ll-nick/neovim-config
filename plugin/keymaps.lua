@@ -14,6 +14,9 @@ set("n", "<M-.>", "<c-w>5>", { desc = "Increase split width" })
 set("n", "<M-u>", "<C-w>+", { desc = "Increase split height" })
 set("n", "<M-d>", "<C-w>-", { desc = "Decrease split height" })
 
+-- New tab
+set("n", "<C-w>t", "<Cmd>tabnew<CR>", { desc = "Open a new tab" })
+
 -- Zoom in/out by moving pane to new tab
 set("n", "<leader>zi", "<Cmd>tab split<CR>", { desc = "Zoom in by moving the current pane to a new tab" })
 set("n", "<leader>zo", "<Cmd>tab close<CR>", { desc = "Zoom out by closing the current tab" })
