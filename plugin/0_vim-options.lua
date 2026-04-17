@@ -25,6 +25,18 @@ vim.opt.scrolloff = 5
 -- Enable spell checking
 vim.opt.spelllang = "en_us"
 vim.opt.spell = true
+vim.opt.spellfile = vim.fn.stdpath("config") .. "/spell/en.utf-8.add"
+
+-- Sort spellfile after adding a word with zg
+vim.keymap.set("n", "zg", function()
+  vim.cmd("normal! zg")
+  local spellfile = vim.o.spellfile
+  if spellfile and vim.fn.filereadable(spellfile) == 1 then
+    local lines = vim.fn.readfile(spellfile)
+    table.sort(lines, function(a, b) return a:lower() < b:lower() end)
+    vim.fn.writefile(lines, spellfile)
+  end
+end, { desc = "Add word to spellfile and sort" })
 
 vim.diagnostic.config({ virtual_text = true })
 
