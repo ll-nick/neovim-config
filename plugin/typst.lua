@@ -28,6 +28,13 @@ vim.api.nvim_create_user_command("TypstSetMain", function()
   vim.notify("Typst main set to: " .. vim.fn.fnamemodify(path, ":t"))
 end, { desc = "Set current buffer as Typst main entry point" })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "typst",
+  callback = function()
+    vim.opt_local.colorcolumn = "90,120"
+  end,
+})
+
 vim.api.nvim_create_autocmd("DiagnosticChanged", {
   callback = function(args)
     if not vim.api.nvim_buf_is_valid(args.buf) then
