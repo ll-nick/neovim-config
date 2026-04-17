@@ -86,7 +86,7 @@ return {
   root_markers = { ".git" },
   settings = {
     formatterMode = "typstyle",
-    formatterProseWrap = true,
+    formatterProseWrap = false,
     formatterPrintWidth = 90,
     formatterIndentSize = 4,
   },
