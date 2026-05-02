@@ -10,6 +10,7 @@ vim.pack.add({
 
 require("typst-preview").setup({
   dependencies_bin = { ["tinymist"] = "tinymist" },
+  extra_args = { "--partial-rendering=true" },
   get_main_file = function(path)
     return require("utils.typst").get_main_typ(path) or path
   end,
