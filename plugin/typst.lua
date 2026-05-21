@@ -8,12 +8,15 @@ vim.pack.add({
   { src = "https://github.com/chomosuke/typst-preview.nvim", version = vim.version.range("1") },
 })
 
+local preview_host = vim.fn.system("hostname -I"):match("^%S+") or "127.0.0.1"
+
 require("typst-preview").setup({
   dependencies_bin = { ["tinymist"] = "tinymist" },
   extra_args = { "--partial-rendering=true" },
   get_main_file = function(path)
     return require("utils.typst").get_main_typ(path) or path
   end,
+  host = preview_host,
 })
 
 vim.api.nvim_create_user_command("TypstSetMain", function()
