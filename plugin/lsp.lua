@@ -19,7 +19,9 @@ local filter_formatting_client = function(client)
   local unwanted = {
     basedpyright = true, -- prefer Ruff
     bashls = true, -- prefer shfmt
+    cssls = true, -- prefer Biome
     lua_ls = true, -- prefer stylua
+    ts_ls = true, -- prefer Biome
   }
 
   if unwanted[client.name] then

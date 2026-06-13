@@ -5,13 +5,17 @@ require("mason-auto-install").setup({
   packages = {
     "basedpyright",
     "bash-language-server",
+    "biome",
     "clangd",
+    "css-lsp",
     "gh-actions-language-server",
+    "html-lsp",
     "lua-language-server",
     "ruff",
     "rust-analyzer",
     "stylua",
     "shfmt",
     "tinymist",
+    "typescript-language-server",
   },
 })
