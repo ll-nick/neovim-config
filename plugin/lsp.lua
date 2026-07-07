@@ -20,6 +20,7 @@ local filter_formatting_client = function(client)
     basedpyright = true, -- prefer Ruff
     bashls = true, -- prefer shfmt
     cssls = true, -- prefer Biome
+    html = true, -- prefer Biome
     lua_ls = true, -- prefer stylua
     ts_ls = true, -- prefer Biome
   }
