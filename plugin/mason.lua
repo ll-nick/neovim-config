@@ -16,6 +16,7 @@ require("mason-auto-install").setup({
     "stylua",
     "shfmt",
     "tinymist",
+    "tombi",
     "typescript-language-server",
   },
 })
