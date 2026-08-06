@@ -18,6 +18,18 @@ require("typst-preview").setup({
   host = preview_host,
 })
 
+vim.api.nvim_create_user_command("TypstPreviewRefresh", function()
+  vim.cmd("checktime")
+  local servers = require("typst-preview.servers")
+  local preview_utils = require("typst-preview.utils")
+  local bufnr = vim.api.nvim_get_current_buf()
+  local path = preview_utils.get_buf_path(bufnr)
+  local content = preview_utils.get_buf_content(bufnr)
+  for _, ser in pairs(servers.get_all()) do
+    servers.update_memory_file(ser, path, content)
+  end
+end, { desc = "Reload buffer from disk and push it to the running Typst preview" })
+
 vim.api.nvim_create_user_command("TypstSetMain", function()
   local path = vim.api.nvim_buf_get_name(0)
   if path == "" or not path:match("%.typ$") then
@@ -55,3 +67,4 @@ vim.api.nvim_create_autocmd("DiagnosticChanged", {
 vim.keymap.set("n", "<leader>pp", "<cmd>TypstPreviewToggle<cr>", { desc = "Toggle preview" })
 vim.keymap.set("n", "<leader>ps", "<cmd>TypstPreviewSyncCursor<cr>", { desc = "Sync preview to cursor" })
 vim.keymap.set("n", "<leader>pf", "<cmd>TypstSetMain<cr>", { desc = "Set file as Typst main" })
+vim.keymap.set("n", "<leader>pr", "<cmd>TypstPreviewRefresh<cr>", { desc = "Refresh preview from disk" })
