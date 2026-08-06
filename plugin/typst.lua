@@ -19,16 +19,24 @@ require("typst-preview").setup({
 })
 
 vim.api.nvim_create_user_command("TypstPreviewRefresh", function()
+  local had_autoread = vim.o.autoread
+  vim.o.autoread = true
   vim.cmd("checktime")
+  vim.o.autoread = had_autoread
+
   local servers = require("typst-preview.servers")
   local preview_utils = require("typst-preview.utils")
-  local bufnr = vim.api.nvim_get_current_buf()
-  local path = preview_utils.get_buf_path(bufnr)
-  local content = preview_utils.get_buf_content(bufnr)
-  for _, ser in pairs(servers.get_all()) do
-    servers.update_memory_file(ser, path, content)
+  local all_servers = servers.get_all()
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].filetype == "typst" then
+      local path = preview_utils.get_buf_path(bufnr)
+      local content = preview_utils.get_buf_content(bufnr)
+      for _, ser in pairs(all_servers) do
+        servers.update_memory_file(ser, path, content)
+      end
+    end
   end
-end, { desc = "Reload buffer from disk and push it to the running Typst preview" })
+end, { desc = "Reload all open Typst buffers from disk and push them to the running preview" })
 
 vim.api.nvim_create_user_command("TypstSetMain", function()
   local path = vim.api.nvim_buf_get_name(0)
