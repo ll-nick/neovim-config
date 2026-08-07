@@ -58,6 +58,8 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+local qflist_refresh_timer = assert(vim.uv.new_timer())
+
 vim.api.nvim_create_autocmd("DiagnosticChanged", {
   callback = function(args)
     if not vim.api.nvim_buf_is_valid(args.buf) then
@@ -66,9 +68,18 @@ vim.api.nvim_create_autocmd("DiagnosticChanged", {
     if vim.bo[args.buf].filetype ~= "typst" then
       return
     end
-    vim.schedule(function()
-      vim.diagnostic.setqflist({ open = false })
-    end)
+    -- Debounced: tinymist republishes diagnostics on almost every keystroke while
+    -- the document fails to compile, and calling setqflist() synchronously that
+    -- often collides with pending LSP incremental-sync buffer changes and can
+    -- trigger a "compute_end_range" assertion failure in Neovim's LSP client.
+    qflist_refresh_timer:stop()
+    qflist_refresh_timer:start(
+      200,
+      0,
+      vim.schedule_wrap(function()
+        pcall(vim.diagnostic.setqflist, { open = false })
+      end)
+    )
   end,
 })
 
