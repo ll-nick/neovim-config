@@ -5,6 +5,7 @@ dataset
 datasets
 drivability
 extensibility
+fallbacks
 initializations
 instantiation
 interPlan
@@ -27,4 +28,6 @@ teleoperation
 verifier
 verifiers
 verify
+waypoint
+waypoints
 workspace
