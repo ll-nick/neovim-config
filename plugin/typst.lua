@@ -18,26 +18,6 @@ require("typst-preview").setup({
   host = preview_host,
 })
 
-vim.api.nvim_create_user_command("TypstPreviewRefresh", function()
-  local had_autoread = vim.o.autoread
-  vim.o.autoread = true
-  vim.cmd("checktime")
-  vim.o.autoread = had_autoread
-
-  local servers = require("typst-preview.servers")
-  local preview_utils = require("typst-preview.utils")
-  local all_servers = servers.get_all()
-  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].filetype == "typst" then
-      local path = preview_utils.get_buf_path(bufnr)
-      local content = preview_utils.get_buf_content(bufnr)
-      for _, ser in pairs(all_servers) do
-        servers.update_memory_file(ser, path, content)
-      end
-    end
-  end
-end, { desc = "Reload all open Typst buffers from disk and push them to the running preview" })
-
 vim.api.nvim_create_user_command("TypstSetMain", function()
   local path = vim.api.nvim_buf_get_name(0)
   if path == "" or not path:match("%.typ$") then
@@ -58,32 +38,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-local qflist_refresh_timer = assert(vim.uv.new_timer())
-
-vim.api.nvim_create_autocmd("DiagnosticChanged", {
-  callback = function(args)
-    if not vim.api.nvim_buf_is_valid(args.buf) then
-      return
-    end
-    if vim.bo[args.buf].filetype ~= "typst" then
-      return
-    end
-    -- Debounced: tinymist republishes diagnostics on almost every keystroke while
-    -- the document fails to compile, and calling setqflist() synchronously that
-    -- often collides with pending LSP incremental-sync buffer changes and can
-    -- trigger a "compute_end_range" assertion failure in Neovim's LSP client.
-    qflist_refresh_timer:stop()
-    qflist_refresh_timer:start(
-      200,
-      0,
-      vim.schedule_wrap(function()
-        pcall(vim.diagnostic.setqflist, { open = false })
-      end)
-    )
-  end,
-})
-
 vim.keymap.set("n", "<leader>pp", "<cmd>TypstPreviewToggle<cr>", { desc = "Toggle preview" })
 vim.keymap.set("n", "<leader>ps", "<cmd>TypstPreviewSyncCursor<cr>", { desc = "Sync preview to cursor" })
 vim.keymap.set("n", "<leader>pf", "<cmd>TypstSetMain<cr>", { desc = "Set file as Typst main" })
-vim.keymap.set("n", "<leader>pr", "<cmd>TypstPreviewRefresh<cr>", { desc = "Refresh preview from disk" })
